@@ -11,7 +11,7 @@ public struct TouchData
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
 public class InputReader : ScriptableObject
 {
-    public event UnityAction<Vector2> PrimaryTouchMovedEvent = delegate { };
+    public event UnityAction<TouchData> PrimaryTouchMovedEvent = delegate { };
     public event UnityAction<TouchData, TouchData> SecondaryTouchEvent = delegate { };
     public event UnityAction StartZoomEvent = delegate { };
     public event UnityAction StopZoomEvent = delegate { };
@@ -25,8 +25,8 @@ public class InputReader : ScriptableObject
             _touchInput = new TouchInput();
             _touchInput.Enable();
 
-            _touchInput.Touch.PrimaryTouchMove.performed += PrimaryTouchMove;
-            _touchInput.Touch.SecondaryTouchPosition.performed += StartPinch;
+            _touchInput.Touch.PrimaryTouchMove.performed += _ => PrimaryTouchMove();
+            _touchInput.Touch.SecondaryTouchPosition.performed += _ => StartPinch();
             _touchInput.Touch.SecondaryTouchContact.started += _ => StartZoomEvent.Invoke();
             _touchInput.Touch.SecondaryTouchContact.canceled += _ => StopZoomEvent.Invoke();
         }
@@ -40,13 +40,16 @@ public class InputReader : ScriptableObject
     /// <summary>
     /// Panning movement
     /// </summary>
-    /// <param name="context"></param>
-    private void PrimaryTouchMove(InputAction.CallbackContext context)
+    private void PrimaryTouchMove()
     {
-        PrimaryTouchMovedEvent.Invoke(context.ReadValue<Vector2>());
+        PrimaryTouchMovedEvent.Invoke( new TouchData
+        {
+            Position = _touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>(),
+            DeltaPosition = _touchInput.Touch.PrimaryTouchMove.ReadValue<Vector2>()
+        });
     }
 
-    private void StartPinch(InputAction.CallbackContext context)
+    private void StartPinch()
     {
         SecondaryTouchEvent.Invoke(
             new TouchData

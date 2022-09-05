@@ -725,8 +725,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: 325cfc9d352da56448bc35fa2a8b8783, type: 2}
-  cameraTransform: {fileID: 330585546}
-  panSpeed: 1
+  mainCamera: {fileID: 330585545}
+  panSpeed: 10
   zoomSpeed: 5
   minZoom: 30
   maxZoom: 1

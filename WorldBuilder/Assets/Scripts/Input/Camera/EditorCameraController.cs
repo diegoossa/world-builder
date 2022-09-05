@@ -1,5 +1,3 @@
-using System;
-using Cinemachine;
 using UnityEngine;
 
 public class EditorCameraController : MonoBehaviour
@@ -7,24 +5,25 @@ public class EditorCameraController : MonoBehaviour
     [SerializeField] private InputReader inputReader;
 
     [Header("Camera reference")] [SerializeField]
-    private Transform cameraTransform;
-
-    [Header("Panning")] [SerializeField]
-    private float panSpeed = 5f;
-
-    [Header("Zoom")] [SerializeField]
-    private float zoomSpeed = 10f;
+    private Camera mainCamera;
+    
+    [Header("Zoom")] [SerializeField] private float zoomSpeed = 10f;
     [SerializeField] private float minZoom = 30f;
     [SerializeField] private float maxZoom = 1f;
 
-    [Header("Rotation")] [SerializeField]
-    private float rotationSpeed = 2f;
-    
+    [Header("Rotation")] [SerializeField] private float rotationSpeed = 2f;
+
     private bool _isZooming;
-    private float _previousDistance;
-    
+    private Transform _cameraTransform;
+    private Plane _groundPlane;
+
     private void Awake()
     {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        if (mainCamera != null) 
+            _cameraTransform = mainCamera.transform;
     }
 
     private void OnEnable()
@@ -33,6 +32,8 @@ public class EditorCameraController : MonoBehaviour
         inputReader.SecondaryTouchEvent += OnStartPinch;
         inputReader.StartZoomEvent += OnStartZoom;
         inputReader.StopZoomEvent += OnStopZoom;
+
+        _groundPlane.SetNormalAndPosition(Vector3.up, Vector3.zero);
     }
 
     private void OnDisable()
@@ -47,86 +48,58 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnStopZoom() => _isZooming = false;
 
-    private void OnPrimaryTouchMoved(Vector2 deltaPosition)
+    private void OnPrimaryTouchMoved(TouchData primaryTouch)
     {
         if (!_isZooming)
         {
-            cameraTransform.transform.Translate(
-                -deltaPosition.x * panSpeed * Time.deltaTime, 0, 
-                -deltaPosition.y * panSpeed * Time.deltaTime, Space.World);
+            var deltaMovement = GetWorldPositionDelta(primaryTouch.Position, primaryTouch.DeltaPosition);
+            _cameraTransform.transform.Translate(deltaMovement, Space.World);
         }
     }
 
     private void OnStartPinch(TouchData primaryTouch, TouchData secondaryTouch)
     {
-        if(!_isZooming)
+        if (!_isZooming)
             return;
-        
-        var distance = Vector2.Distance(primaryTouch.Position, secondaryTouch.Position);
-      
-        // Zoom out
-        if (distance > _previousDistance)
-        {
-            var targetPosition = cameraTransform.transform.position + cameraTransform.forward;
-            cameraTransform.position =
-                Vector3.Slerp(cameraTransform.position, targetPosition, Time.deltaTime * zoomSpeed);
-        }
-        // Zoom in
-        else if (distance < _previousDistance)
-        {
-            var targetPosition = cameraTransform.transform.position - cameraTransform.forward;
-            cameraTransform.position =
-                Vector3.Slerp(cameraTransform.position, targetPosition, Time.deltaTime * zoomSpeed);
-        }
 
-        var rotationAngle = Vector3.Angle(
-            secondaryTouch.Position - primaryTouch.Position,
-            (secondaryTouch.Position - secondaryTouch.DeltaPosition) -
-            (primaryTouch.Position - primaryTouch.DeltaPosition));
-        
-        Debug.Log($"ROTATION ANGLE >> {rotationAngle}");
-        
-        cameraTransform.RotateAround(
-            transform.position,
-            Vector3.up,
-            rotationAngle* rotationSpeed * Time.deltaTime);
+        var currentPrimaryPosition = GetWorldPosition(primaryTouch.Position);
+        var currentSecondaryPosition = GetWorldPosition(secondaryTouch.Position);
+        var previousPrimaryPosition = GetWorldPosition(primaryTouch.Position - primaryTouch.DeltaPosition);
+        var previousSecondaryPosition = GetWorldPosition(secondaryTouch.Position - secondaryTouch.DeltaPosition);
 
-        _previousDistance = distance;
+        var zoomAmount = Vector3.Distance(currentPrimaryPosition, currentSecondaryPosition) /
+                         Vector3.Distance(previousPrimaryPosition, previousSecondaryPosition);
+
+        if (zoomAmount is 0 or > 10)
+            return;
+
+        _cameraTransform.position =
+            Vector3.LerpUnclamped(currentPrimaryPosition, _cameraTransform.position, 1 / zoomAmount);
+
+        if (previousSecondaryPosition != currentSecondaryPosition)
+        {
+            _cameraTransform.RotateAround(currentPrimaryPosition, _groundPlane.normal,
+                Vector3.SignedAngle(currentSecondaryPosition - currentPrimaryPosition,
+                    previousSecondaryPosition - previousPrimaryPosition, _groundPlane.normal));
+        }
     }
 
-    // private void OnStartPinch(TouchData primaryTouch, TouchData secondaryTouch)
-    // {
-    //     if (!_isZooming)
-    //         return;
-    //
-    //     var currentPrimaryPosition = PlanePosition(primaryTouch.Position);
-    //     var currentSecondaryPosition = PlanePosition(secondaryTouch.Position);
-    //     var lastPrimaryPosition =  PlanePosition(primaryTouch.Position - primaryTouch.DeltaPosition);
-    //     var lastSecondaryPosition = PlanePosition(secondaryTouch.Position - secondaryTouch.DeltaPosition);
-    //
-    //     var zoom = Vector3.Distance(currentPrimaryPosition, currentSecondaryPosition) /
-    //                Vector3.Distance(-lastPrimaryPosition, lastSecondaryPosition);
-    //
-    //     if (zoom is 0 or > 10)
-    //         return;
-    //
-    //     var camPositionBeforeAdjustment = mainCamera.transform.position;
-    //     mainCamera.transform.position = Vector3.LerpUnclamped(currentPrimaryPosition,  mainCamera.transform.position, 1 / zoom);
-    //
-    //     if (mainCamera.transform.position.y > (_cameraStartPosition.y + minZoom))
-    //     {
-    //         mainCamera.transform.position = camPositionBeforeAdjustment;
-    //     }
-    //     if (mainCamera.transform.position.y < (_cameraStartPosition.y - maxZoom) || mainCamera.transform.position.y <= 1)
-    //     {
-    //         mainCamera.transform.position = camPositionBeforeAdjustment;
-    //     }
-    //     
-    //     if (lastSecondaryPosition != currentSecondaryPosition)
-    //     {
-    //         mainCamera.transform.RotateAround(currentPrimaryPosition, Vector3.up,
-    //             Vector3.SignedAngle(currentSecondaryPosition - currentPrimaryPosition,
-    //                 lastSecondaryPosition - lastPrimaryPosition, Vector3.up));
-    //     }
-    // }
+    private Vector3 GetWorldPosition(Vector2 screenPosition)
+    {
+        var ray = mainCamera.ScreenPointToRay(screenPosition);
+        if (_groundPlane.Raycast(ray, out var enter))
+            return ray.GetPoint(enter);
+        return Vector3.zero;
+    }
+
+    private Vector3 GetWorldPositionDelta(Vector2 position, Vector2 deltaPosition)
+    {
+        var previousRay = mainCamera.ScreenPointToRay(position - deltaPosition);
+        var currentRay = mainCamera.ScreenPointToRay(position);
+        if (_groundPlane.Raycast(previousRay, out var enterBefore) &&
+            _groundPlane.Raycast(currentRay, out var enterNow))
+            return previousRay.GetPoint(enterBefore) - currentRay.GetPoint(enterNow);
+
+        return Vector3.zero;
+    }
 }
