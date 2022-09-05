@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PrimaryTouchContact",
-                    "type": "Button",
-                    "id": "c2ab41f3-aa9d-4ea8-a3aa-fcc1b2deb9b3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "SecondaryTouchPosition",
                     "type": "Value",
                     "id": "3b84a540-7afc-49ef-bc7e-cf272658885c",
@@ -42,9 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TouchMove",
+                    "name": "PrimaryTouchMove",
                     "type": "Value",
                     "id": "927631e4-46ba-428a-92eb-f0ee54cd9182",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SecondaryTouchMove",
+                    "type": "Value",
+                    "id": "8b737820-2f1f-4f87-94bf-679e160488ac",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -55,7 +55,7 @@
                 {
                     "name": "",
                     "id": "0bcc2fab-c4da-4266-99d5-b878de52e861",
-                    "path": "<Touchscreen>/primaryTouch/position",
+                    "path": "<Touchscreen>/touch0/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -92,18 +92,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchMove",
+                    "action": "PrimaryTouchMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "7ad8de67-fe7c-43c3-9834-35db51911db1",
-                    "path": "<Touchscreen>/primaryTouch/press",
+                    "id": "42aeb10b-d14a-44e1-a103-c34e811b863c",
+                    "path": "<Touchscreen>/touch1/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PrimaryTouchContact",
+                    "action": "SecondaryTouchMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

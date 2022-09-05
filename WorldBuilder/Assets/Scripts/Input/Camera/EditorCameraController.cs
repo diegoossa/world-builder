@@ -1,62 +1,132 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 
 public class EditorCameraController : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
 
-    private Camera _mainCamera;
+    [Header("Camera reference")] [SerializeField]
+    private Transform cameraTransform;
 
-    [Header("Panning Motion")]
-    [SerializeField]
+    [Header("Panning")] [SerializeField]
     private float panSpeed = 5f;
-    [SerializeField] private bool _shouldMove;
 
-    [SerializeField] private LayerMask interactableLayer;
+    [Header("Zoom")] [SerializeField]
+    private float zoomSpeed = 10f;
+    [SerializeField] private float minZoom = 30f;
+    [SerializeField] private float maxZoom = 1f;
 
+    [Header("Rotation")] [SerializeField]
+    private float rotationSpeed = 2f;
+    
+    private bool _isZooming;
+    private float _previousDistance;
+    
     private void Awake()
     {
     }
 
     private void OnEnable()
     {
-        inputReader.PrimaryTouchStartedEvent += OnPrimaryTouchStart;
         inputReader.PrimaryTouchMovedEvent += OnPrimaryTouchMoved;
-        _mainCamera = Camera.main;
+        inputReader.SecondaryTouchEvent += OnStartPinch;
+        inputReader.StartZoomEvent += OnStartZoom;
+        inputReader.StopZoomEvent += OnStopZoom;
     }
 
     private void OnDisable()
     {
-        inputReader.PrimaryTouchStartedEvent -= OnPrimaryTouchStart;
         inputReader.PrimaryTouchMovedEvent -= OnPrimaryTouchMoved;
+        inputReader.SecondaryTouchEvent -= OnStartPinch;
+        inputReader.StartZoomEvent -= OnStartZoom;
+        inputReader.StopZoomEvent -= OnStopZoom;
     }
 
-    private void OnPrimaryTouchStart(Vector2 position)
-    {
-        Debug.Log("START TOUCH");
-        // Raycast to check if we should pan or interact
-        var ray = _mainCamera.ScreenPointToRay(position);
-        if (Physics.Raycast(ray, out var hit))
-        {
-            if (hit.collider.CompareTag("Interactable"))
-            {
-                Debug.Log("Interactable");
-                _shouldMove = false;
-            }
-            else
-            {
-                Debug.Log("Not Interactable");
-                _shouldMove = true;
-            }
-        }
-    }
+    private void OnStartZoom() => _isZooming = true;
+
+    private void OnStopZoom() => _isZooming = false;
 
     private void OnPrimaryTouchMoved(Vector2 deltaPosition)
     {
-        //Debug.Log($"POS >> {position} // DELTA >> {deltaPosition}");
-        if (_shouldMove)
+        if (!_isZooming)
         {
-            transform.Translate(-deltaPosition.x * panSpeed * Time.deltaTime, 0, -deltaPosition.y * panSpeed * Time.deltaTime);
+            cameraTransform.transform.Translate(
+                -deltaPosition.x * panSpeed * Time.deltaTime, 0, 
+                -deltaPosition.y * panSpeed * Time.deltaTime, Space.World);
         }
     }
+
+    private void OnStartPinch(TouchData primaryTouch, TouchData secondaryTouch)
+    {
+        if(!_isZooming)
+            return;
+        
+        var distance = Vector2.Distance(primaryTouch.Position, secondaryTouch.Position);
+      
+        // Zoom out
+        if (distance > _previousDistance)
+        {
+            var targetPosition = cameraTransform.transform.position + cameraTransform.forward;
+            cameraTransform.position =
+                Vector3.Slerp(cameraTransform.position, targetPosition, Time.deltaTime * zoomSpeed);
+        }
+        // Zoom in
+        else if (distance < _previousDistance)
+        {
+            var targetPosition = cameraTransform.transform.position - cameraTransform.forward;
+            cameraTransform.position =
+                Vector3.Slerp(cameraTransform.position, targetPosition, Time.deltaTime * zoomSpeed);
+        }
+
+        var rotationAngle = Vector3.Angle(
+            secondaryTouch.Position - primaryTouch.Position,
+            (secondaryTouch.Position - secondaryTouch.DeltaPosition) -
+            (primaryTouch.Position - primaryTouch.DeltaPosition));
+        
+        Debug.Log($"ROTATION ANGLE >> {rotationAngle}");
+        
+        cameraTransform.RotateAround(
+            transform.position,
+            Vector3.up,
+            rotationAngle* rotationSpeed * Time.deltaTime);
+
+        _previousDistance = distance;
+    }
+
+    // private void OnStartPinch(TouchData primaryTouch, TouchData secondaryTouch)
+    // {
+    //     if (!_isZooming)
+    //         return;
+    //
+    //     var currentPrimaryPosition = PlanePosition(primaryTouch.Position);
+    //     var currentSecondaryPosition = PlanePosition(secondaryTouch.Position);
+    //     var lastPrimaryPosition =  PlanePosition(primaryTouch.Position - primaryTouch.DeltaPosition);
+    //     var lastSecondaryPosition = PlanePosition(secondaryTouch.Position - secondaryTouch.DeltaPosition);
+    //
+    //     var zoom = Vector3.Distance(currentPrimaryPosition, currentSecondaryPosition) /
+    //                Vector3.Distance(-lastPrimaryPosition, lastSecondaryPosition);
+    //
+    //     if (zoom is 0 or > 10)
+    //         return;
+    //
+    //     var camPositionBeforeAdjustment = mainCamera.transform.position;
+    //     mainCamera.transform.position = Vector3.LerpUnclamped(currentPrimaryPosition,  mainCamera.transform.position, 1 / zoom);
+    //
+    //     if (mainCamera.transform.position.y > (_cameraStartPosition.y + minZoom))
+    //     {
+    //         mainCamera.transform.position = camPositionBeforeAdjustment;
+    //     }
+    //     if (mainCamera.transform.position.y < (_cameraStartPosition.y - maxZoom) || mainCamera.transform.position.y <= 1)
+    //     {
+    //         mainCamera.transform.position = camPositionBeforeAdjustment;
+    //     }
+    //     
+    //     if (lastSecondaryPosition != currentSecondaryPosition)
+    //     {
+    //         mainCamera.transform.RotateAround(currentPrimaryPosition, Vector3.up,
+    //             Vector3.SignedAngle(currentSecondaryPosition - currentPrimaryPosition,
+    //                 lastSecondaryPosition - lastPrimaryPosition, Vector3.up));
+    //     }
+    // }
 }
