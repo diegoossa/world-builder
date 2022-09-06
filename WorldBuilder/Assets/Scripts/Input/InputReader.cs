@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public struct TouchData
 {
@@ -11,10 +10,11 @@ public struct TouchData
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
 public class InputReader : ScriptableObject
 {
+    public event UnityAction<Vector2> PrimaryTapEvent = delegate { };
     public event UnityAction<TouchData> PrimaryTouchMovedEvent = delegate { };
     public event UnityAction<TouchData, TouchData> SecondaryTouchEvent = delegate { };
-    public event UnityAction StartZoomEvent = delegate { };
-    public event UnityAction StopZoomEvent = delegate { };
+    public event UnityAction StartPinchEvent = delegate { };
+    public event UnityAction StopPinchEvent = delegate { };
 
     private TouchInput _touchInput;
 
@@ -25,16 +25,22 @@ public class InputReader : ScriptableObject
             _touchInput = new TouchInput();
             _touchInput.Enable();
 
-            _touchInput.Touch.PrimaryTouchMove.performed += _ => PrimaryTouchMove();
+            _touchInput.Touch.PrimaryTouchDelta.performed += _ => PrimaryTouchMove();
             _touchInput.Touch.SecondaryTouchPosition.performed += _ => StartPinch();
-            _touchInput.Touch.SecondaryTouchContact.started += _ => StartZoomEvent.Invoke();
-            _touchInput.Touch.SecondaryTouchContact.canceled += _ => StopZoomEvent.Invoke();
+            _touchInput.Touch.SecondaryTouchContact.started += _ => StartPinchEvent.Invoke();
+            _touchInput.Touch.SecondaryTouchContact.canceled += _ => StopPinchEvent.Invoke();
+            _touchInput.Touch.PrimaryTap.performed += _ => PrimaryTap();
         }
     }
 
     private void OnDisable()
     {
         _touchInput.Disable();
+    }
+    
+    private void PrimaryTap()
+    {
+        PrimaryTapEvent.Invoke(_touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>());
     }
 
     /// <summary>
@@ -45,7 +51,7 @@ public class InputReader : ScriptableObject
         PrimaryTouchMovedEvent.Invoke( new TouchData
         {
             Position = _touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>(),
-            DeltaPosition = _touchInput.Touch.PrimaryTouchMove.ReadValue<Vector2>()
+            DeltaPosition = _touchInput.Touch.PrimaryTouchDelta.ReadValue<Vector2>()
         });
     }
 
@@ -55,12 +61,12 @@ public class InputReader : ScriptableObject
             new TouchData
             {
                 Position = _touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _touchInput.Touch.PrimaryTouchMove.ReadValue<Vector2>()
+                DeltaPosition = _touchInput.Touch.PrimaryTouchDelta.ReadValue<Vector2>()
             },
             new TouchData
             {
                 Position = _touchInput.Touch.SecondaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _touchInput.Touch.SecondaryTouchMove.ReadValue<Vector2>()
+                DeltaPosition = _touchInput.Touch.SecondaryTouchDelta.ReadValue<Vector2>()
             });
     }
 }

@@ -55,7 +55,7 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PrimaryTouchMove"",
+                    ""name"": ""PrimaryTouchDelta"",
                     ""type"": ""Value"",
                     ""id"": ""927631e4-46ba-428a-92eb-f0ee54cd9182"",
                     ""expectedControlType"": ""Vector2"",
@@ -64,13 +64,22 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SecondaryTouchMove"",
+                    ""name"": ""SecondaryTouchDelta"",
                     ""type"": ""Value"",
                     ""id"": ""8b737820-2f1f-4f87-94bf-679e160488ac"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PrimaryTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""99c5baa7-2b66-49a6-a3f0-8366498c740d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -114,7 +123,7 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PrimaryTouchMove"",
+                    ""action"": ""PrimaryTouchDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -125,7 +134,18 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SecondaryTouchMove"",
+                    ""action"": ""SecondaryTouchDelta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8751c15-16aa-4ae5-b0b7-bc2695f20095"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrimaryTap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -139,8 +159,9 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
         m_Touch_PrimaryTouchPosition = m_Touch.FindAction("PrimaryTouchPosition", throwIfNotFound: true);
         m_Touch_SecondaryTouchPosition = m_Touch.FindAction("SecondaryTouchPosition", throwIfNotFound: true);
         m_Touch_SecondaryTouchContact = m_Touch.FindAction("SecondaryTouchContact", throwIfNotFound: true);
-        m_Touch_PrimaryTouchMove = m_Touch.FindAction("PrimaryTouchMove", throwIfNotFound: true);
-        m_Touch_SecondaryTouchMove = m_Touch.FindAction("SecondaryTouchMove", throwIfNotFound: true);
+        m_Touch_PrimaryTouchDelta = m_Touch.FindAction("PrimaryTouchDelta", throwIfNotFound: true);
+        m_Touch_SecondaryTouchDelta = m_Touch.FindAction("SecondaryTouchDelta", throwIfNotFound: true);
+        m_Touch_PrimaryTap = m_Touch.FindAction("PrimaryTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -203,8 +224,9 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Touch_PrimaryTouchPosition;
     private readonly InputAction m_Touch_SecondaryTouchPosition;
     private readonly InputAction m_Touch_SecondaryTouchContact;
-    private readonly InputAction m_Touch_PrimaryTouchMove;
-    private readonly InputAction m_Touch_SecondaryTouchMove;
+    private readonly InputAction m_Touch_PrimaryTouchDelta;
+    private readonly InputAction m_Touch_SecondaryTouchDelta;
+    private readonly InputAction m_Touch_PrimaryTap;
     public struct TouchActions
     {
         private @TouchInput m_Wrapper;
@@ -212,8 +234,9 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
         public InputAction @PrimaryTouchPosition => m_Wrapper.m_Touch_PrimaryTouchPosition;
         public InputAction @SecondaryTouchPosition => m_Wrapper.m_Touch_SecondaryTouchPosition;
         public InputAction @SecondaryTouchContact => m_Wrapper.m_Touch_SecondaryTouchContact;
-        public InputAction @PrimaryTouchMove => m_Wrapper.m_Touch_PrimaryTouchMove;
-        public InputAction @SecondaryTouchMove => m_Wrapper.m_Touch_SecondaryTouchMove;
+        public InputAction @PrimaryTouchDelta => m_Wrapper.m_Touch_PrimaryTouchDelta;
+        public InputAction @SecondaryTouchDelta => m_Wrapper.m_Touch_SecondaryTouchDelta;
+        public InputAction @PrimaryTap => m_Wrapper.m_Touch_PrimaryTap;
         public InputActionMap Get() { return m_Wrapper.m_Touch; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,12 +255,15 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                 @SecondaryTouchContact.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchContact;
                 @SecondaryTouchContact.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchContact;
                 @SecondaryTouchContact.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchContact;
-                @PrimaryTouchMove.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchMove;
-                @PrimaryTouchMove.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchMove;
-                @PrimaryTouchMove.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchMove;
-                @SecondaryTouchMove.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchMove;
-                @SecondaryTouchMove.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchMove;
-                @SecondaryTouchMove.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchMove;
+                @PrimaryTouchDelta.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchDelta;
+                @PrimaryTouchDelta.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchDelta;
+                @PrimaryTouchDelta.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTouchDelta;
+                @SecondaryTouchDelta.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchDelta;
+                @SecondaryTouchDelta.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchDelta;
+                @SecondaryTouchDelta.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnSecondaryTouchDelta;
+                @PrimaryTap.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTap;
+                @PrimaryTap.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTap;
+                @PrimaryTap.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnPrimaryTap;
             }
             m_Wrapper.m_TouchActionsCallbackInterface = instance;
             if (instance != null)
@@ -251,12 +277,15 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
                 @SecondaryTouchContact.started += instance.OnSecondaryTouchContact;
                 @SecondaryTouchContact.performed += instance.OnSecondaryTouchContact;
                 @SecondaryTouchContact.canceled += instance.OnSecondaryTouchContact;
-                @PrimaryTouchMove.started += instance.OnPrimaryTouchMove;
-                @PrimaryTouchMove.performed += instance.OnPrimaryTouchMove;
-                @PrimaryTouchMove.canceled += instance.OnPrimaryTouchMove;
-                @SecondaryTouchMove.started += instance.OnSecondaryTouchMove;
-                @SecondaryTouchMove.performed += instance.OnSecondaryTouchMove;
-                @SecondaryTouchMove.canceled += instance.OnSecondaryTouchMove;
+                @PrimaryTouchDelta.started += instance.OnPrimaryTouchDelta;
+                @PrimaryTouchDelta.performed += instance.OnPrimaryTouchDelta;
+                @PrimaryTouchDelta.canceled += instance.OnPrimaryTouchDelta;
+                @SecondaryTouchDelta.started += instance.OnSecondaryTouchDelta;
+                @SecondaryTouchDelta.performed += instance.OnSecondaryTouchDelta;
+                @SecondaryTouchDelta.canceled += instance.OnSecondaryTouchDelta;
+                @PrimaryTap.started += instance.OnPrimaryTap;
+                @PrimaryTap.performed += instance.OnPrimaryTap;
+                @PrimaryTap.canceled += instance.OnPrimaryTap;
             }
         }
     }
@@ -266,7 +295,8 @@ public partial class @TouchInput : IInputActionCollection2, IDisposable
         void OnPrimaryTouchPosition(InputAction.CallbackContext context);
         void OnSecondaryTouchPosition(InputAction.CallbackContext context);
         void OnSecondaryTouchContact(InputAction.CallbackContext context);
-        void OnPrimaryTouchMove(InputAction.CallbackContext context);
-        void OnSecondaryTouchMove(InputAction.CallbackContext context);
+        void OnPrimaryTouchDelta(InputAction.CallbackContext context);
+        void OnSecondaryTouchDelta(InputAction.CallbackContext context);
+        void OnPrimaryTap(InputAction.CallbackContext context);
     }
 }
