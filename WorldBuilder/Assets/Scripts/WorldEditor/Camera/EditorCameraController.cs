@@ -15,9 +15,12 @@ public class EditorCameraController : MonoBehaviour
 
     [Header("Rotation")] [SerializeField] private float rotationSpeed = 10f;
 
+    [SerializeField] private int groundLayer;
+    
     private Transform _cameraTransform;
     private bool _isPinching;
     private Plane _groundPlane;
+    private bool _shouldPan;
 
     private void Awake()
     {
@@ -30,6 +33,7 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnEnable()
     {
+        inputReader.PrimaryTouchStartedEvent += OnPrimaryTouchStarted;
         inputReader.PrimaryTouchMovedEvent += OnPrimaryTouchMoved;
         inputReader.SecondaryTouchEvent += OnStartPinch;
         inputReader.StartPinchEvent += OnStartPinch;
@@ -41,10 +45,24 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnDisable()
     {
+        inputReader.PrimaryTouchStartedEvent -= OnPrimaryTouchStarted;
         inputReader.PrimaryTouchMovedEvent -= OnPrimaryTouchMoved;
         inputReader.SecondaryTouchEvent -= OnStartPinch;
         inputReader.StartPinchEvent -= OnStartPinch;
         inputReader.StopPinchEvent -= OnStopPinch;
+    }
+
+    /// <summary>
+    /// Check if we press the ground so we can pan
+    /// </summary>
+    /// <param name="touchPosition"></param>
+    private void OnPrimaryTouchStarted(Vector2 touchPosition)
+    {
+        var ray = mainCamera.ScreenPointToRay(touchPosition);
+        if (Physics.Raycast(ray, out var hit, 50f))
+        {
+            _shouldPan = hit.transform.gameObject.layer == groundLayer;
+        }
     }
 
     private void OnStartPinch() => _isPinching = true;
@@ -53,7 +71,7 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnPrimaryTouchMoved(TouchData primaryTouch)
     {
-        if (_isPinching) 
+        if (_isPinching || !_shouldPan) 
             return;
         
         // Pan Movement

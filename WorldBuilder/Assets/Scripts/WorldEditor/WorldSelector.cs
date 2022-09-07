@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WorldSelector : MonoBehaviour
 {
@@ -25,9 +26,17 @@ public class WorldSelector : MonoBehaviour
 
     private void OnPrimaryTap(Vector2 tapPosition)
     {
+        // if (EventSystem.current.IsPointerOverGameObject()) 
+        //     return;
+
         var ray = _mainCamera.ScreenPointToRay(tapPosition);
-        if (Physics.Raycast(ray, out var hit, 40f, interactableMask))
+        if (Physics.Raycast(ray, out var hit, 50f, interactableMask))
         {
+            // if (hit.transform.gameObject.layer == LayerMask.NameToLayer("UI"))
+            // {
+            //     Logger.Instance.Log($"HIT UI");
+            // }
+            
             if (selectedObject != hit.transform)
                 ClearSelection();
             
