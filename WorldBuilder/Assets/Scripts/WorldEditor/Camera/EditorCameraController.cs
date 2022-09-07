@@ -69,13 +69,13 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnStopPinch() => _isPinching = false;
 
-    private void OnPrimaryTouchMoved(TouchData primaryTouch)
+    private void OnPrimaryTouchMoved(TouchData touchData)
     {
         if (_isPinching || !_shouldPan) 
             return;
         
         // Pan Movement
-        var deltaMovement = GetWorldPositionDelta(primaryTouch.Position, primaryTouch.DeltaPosition);
+        var deltaMovement = GetWorldPositionDelta(touchData.Position, touchData.DeltaPosition);
         _cameraTransform.transform.Translate(deltaMovement * panSpeed * Time.deltaTime, Space.World);
     }
 
