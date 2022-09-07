@@ -1,13 +1,21 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class WorldSelector : MonoBehaviour
 {
+    [Header("Listening To")]
     [SerializeField] private InputReader inputReader;
+
+    [Header("Broadcasting On")] 
+    [SerializeField] private GameObjectEventChannelSO selectObjectChannel;
+    [SerializeField] private VoidEventChannelSO cancelSelectObjectChannel;
 
     [SerializeField] private LayerMask interactableMask;
     [SerializeField] private Transform selectedObject;
+    
     private Camera _mainCamera;
+    private bool _isUIFocus;
 
     private void Awake()
     {
@@ -24,29 +32,31 @@ public class WorldSelector : MonoBehaviour
         inputReader.PrimaryTapEvent -= OnPrimaryTap;
     }
 
+    private void Update()
+    {
+        _isUIFocus = EventSystem.current.IsPointerOverGameObject();
+    }
+
     private void OnPrimaryTap(Vector2 tapPosition)
     {
-        // if (EventSystem.current.IsPointerOverGameObject()) 
-        //     return;
-
+        if (_isUIFocus)
+            return;
+        
         var ray = _mainCamera.ScreenPointToRay(tapPosition);
         if (Physics.Raycast(ray, out var hit, 50f, interactableMask))
         {
-            // if (hit.transform.gameObject.layer == LayerMask.NameToLayer("UI"))
-            // {
-            //     Logger.Instance.Log($"HIT UI");
-            // }
-            
             if (selectedObject != hit.transform)
                 ClearSelection();
             
             selectedObject = hit.transform;
-            Logger.Instance.Log($"HIT {selectedObject.name}");
             selectedObject.TryGetComponent<InteractableObject>(out var interactableObject);
             if (interactableObject)
             {
                 interactableObject.SetActive(true);
             }
+            
+            if(selectObjectChannel)
+                selectObjectChannel.RaiseEvent(hit.transform.gameObject);
         }
         else
         {
@@ -59,12 +69,14 @@ public class WorldSelector : MonoBehaviour
         if (!selectedObject)
             return;
         
-        Logger.Instance.Log("CLEAR SELECTION");
         selectedObject.TryGetComponent<InteractableObject>(out var interactableObject);
         if (interactableObject)
         {
             interactableObject.SetActive(false);
             selectedObject = null;
         }
+        
+        if(cancelSelectObjectChannel)
+            cancelSelectObjectChannel.RaiseEvent();
     }
 }

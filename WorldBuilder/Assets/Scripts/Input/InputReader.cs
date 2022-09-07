@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
 public struct TouchData
 {
@@ -20,7 +21,7 @@ public class InputReader : ScriptableObject
     public event UnityAction StopPinchEvent = delegate { };
     
     private TouchInput _touchInput;
-
+   
     private void OnEnable()
     {
         if (_touchInput == null)
@@ -42,7 +43,7 @@ public class InputReader : ScriptableObject
     {
         _touchInput.Disable();
     }
-    
+
     private void PrimaryTap()
     {
         PrimaryTapEvent.Invoke(_touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>());

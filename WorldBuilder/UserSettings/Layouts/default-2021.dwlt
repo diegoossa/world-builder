@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1349.3334
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Game
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 74395
+  controlID: 89
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 75
+  controlID: 100
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 70
+  controlID: 99
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 121
+  controlID: 23
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -545,8 +545,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Scripts/Input/Actions
+    m_Folders: []
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -560,7 +559,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: ea050000
     m_LastClickedID: 1514
-    m_ExpandedIDs: 00000000806d0000c2730000c4730000c6730000c8730000ca730000cc730000ce730000d0730000d2730000d4730000d6730000d8730000da730000dc730000de730000e0730000e2730000e4730000e6730000e8730000ea730000ec730000ee730000f0730000f2730000f4730000f6730000f8730000fa730000fc730000fe73000000740000027400000474000006740000087400000a7400000c740000
+    m_ExpandedIDs: 000000009c6d00003c7400003e74000040740000427400004474000046740000487400004a7400004c7400004e74000050740000527400005474000056740000587400005a7400005c7400005e74000060740000627400006474000066740000687400006a7400006c7400006e74000070740000727400007474000076740000787400007a7400007c7400007e74000080740000827400008474000086740000887400008a7400008c7400008e74000090740000927400009474000096740000987400009a7400009c7400009e740000a0740000a2740000a4740000a6740000a8740000aa740000ac740000ae740000b0740000b2740000b4740000b6740000b8740000ba740000bc740000be740000c0740000c2740000c4740000c6740000c8740000ca740000cc740000ce740000d0740000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -585,24 +584,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 518.6662}
+    scrollPos: {x: 0, y: 559.6666}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: e2ecfbfff224feffffffffff00000000806d0000c2730000c4730000c6730000c8730000ca730000ce730000d0730000d2730000d4730000d6730000d8730000da730000dc730000de730000e0730000e2730000e4730000e6730000e8730000ea730000ec730000ee730000f0730000f8730000fa730000fc730000fe730000007400000274000004740000087400000a7400000c740000467400004874000078740000b8880000caa500001ca600003ee100004ae1000054e5000068e50000bee50000c0e50000c6e50000c8e500007efc00008cfc00008efc0000f0fc00002e14010040140100cc2701006c4e01006e4e0100a44f0100a84f0100aa4f0100ac4f0100bc4f0100ca4f01000a62010020620100346201004262010062620100bcc701000cc80100cc0d0200ce0d0200062702007a270200b627020020f20200
+    m_ExpandedIDs: ffffffff000000009c6d00003c7400003e74000040740000427400004474000046740000487400004a7400004c7400004e74000050740000527400005474000056740000587400005a7400005c7400005e74000060740000627400006474000066740000687400006a7400006c7400006e74000070740000727400007474000076740000787400007a7400007c7400007e74000080740000827400008474000086740000887400008a7400008c7400008e74000090740000927400009474000096740000987400009a7400009c7400009e740000a0740000a2740000a4740000a6740000a8740000aa740000ac740000ae740000b0740000b2740000b4740000b6740000b8740000ba740000bc740000be740000c0740000c2740000c4740000c6740000c8740000ca740000cc740000ce740000d0740000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Gizmo
+      m_OriginalName: Gizmo
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 30324
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 14}
     m_SearchString: 
@@ -985,9 +984,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.9715998, y: -1.001063, z: -0.32866335}
+    m_Target: {x: 0.17668104, y: 0.23667955, z: -5.106127}
     speed: 2
-    m_Value: {x: 2.9715998, y: -1.001063, z: -0.32866335}
+    m_Value: {x: 0.17668104, y: 0.23667955, z: -5.106127}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1034,13 +1033,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.31443477, y: 0.29583386, z: -0.10381695, w: 0.896014}
+    m_Target: {x: 0.23879771, y: 0.190215, z: -0.047760937, w: 0.9510625}
     speed: 2
-    m_Value: {x: 0.31443384, y: 0.29583296, z: -0.103816636, w: 0.8960113}
+    m_Value: {x: 0.23879689, y: 0.19021435, z: -0.047760773, w: 0.9510592}
   m_Size:
-    m_Target: 3.0056038
+    m_Target: 1.2315875
     speed: 2
-    m_Value: 3.0056038
+    m_Value: 1.2315875
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1097,9 +1096,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: da1fe6fff620e6ffd225e6ffd85be7ff000debffae39edffbc3aedff043dedffba50eeff66afefff50b0effff4b4effff2dcf0ffdc6bf1ffd235f2ff9654f2ffd693f2fff094f2ff8699f2ff66acf3ffa2acf3ffeeaef3ff3cb2f3ff48b3f3ffb4b6f3ff84c1f3ff90c2f3ff2cc7f3ff40fdf3ff4cfef3ffe802f4ffe213f5ff5c38f5ffda80f5ff0698f5ff86b2f5ff1ec0f5ff9ac9f5ff1eedf5ff58f3f6ff9c04f7ffd80af7ffc41ff7fff029f7ff5221f8ff2832f8ff6c57f8ffac61f8ff3a80f8ffce76f9fff078f9ff7a32faff7861faff0a78fbff6a85fbff3093fbffe695fbff809dfbff10a3fbff00b7fbffa2b7fbffdaf6fbff5034feff6c35feff163afefff84dfeff144ffeffbe53feffb266feffce67feff2a6afeff2c74feff4875fefff279feff3e9dfeff5a9efeff04a3feff3ebcfeff5abdfeff08c2feff082cffff242dffff802fffff2a4dffff464efffff052ffff06baffffa6e2ffffc2e3ffff6ce8ffff0efbffffc46c00006687000026910000e4920000a0a300008ed90000dae600004afe0000f80a0100d40c010094160100c21a0100141d01005c1d0100bc2b010042300100d03401009e3601007c5d01004c73010018770100587701005e7e0100c081010050ae0100dac40100a6cf010010d0010008d10100f2fc0100cefe0100cc0a0200720c02007a0c0200860c0200ae0c0200
+      m_SelectedIDs: a06c0000
+      m_LastClickedID: 27808
+      m_ExpandedIDs: d6f8ffff04fbffffa06c0000c66c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1115,7 +1114,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 13}
+        m_ClientGUIView: {fileID: 2}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
