@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,7 +7,7 @@ public class WorldSelector : MonoBehaviour
     [SerializeField] private InputReader inputReader;
 
     [Header("Broadcasting On")] 
-    [SerializeField] private GameObjectEventChannelSO selectObjectChannel;
+    [SerializeField] private TransformEventChannelSO selectObjectChannel;
     [SerializeField] private VoidEventChannelSO cancelSelectObjectChannel;
 
     [SerializeField] private LayerMask interactableMask;
@@ -49,14 +48,13 @@ public class WorldSelector : MonoBehaviour
                 ClearSelection();
             
             selectedObject = hit.transform;
-            selectedObject.TryGetComponent<InteractableObject>(out var interactableObject);
-            if (interactableObject)
+            if (selectedObject.TryGetComponent<InteractableObject>(out var interactableObject))
             {
                 interactableObject.SetActive(true);
             }
             
             if(selectObjectChannel)
-                selectObjectChannel.RaiseEvent(hit.transform.gameObject);
+                selectObjectChannel.RaiseEvent(hit.transform);
         }
         else
         {
@@ -69,8 +67,7 @@ public class WorldSelector : MonoBehaviour
         if (!selectedObject)
             return;
         
-        selectedObject.TryGetComponent<InteractableObject>(out var interactableObject);
-        if (interactableObject)
+        if (selectedObject.TryGetComponent<InteractableObject>(out var interactableObject))
         {
             interactableObject.SetActive(false);
             selectedObject = null;

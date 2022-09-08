@@ -1,11 +1,6 @@
 using UnityEngine;
 
-public enum GizmoType
-{
-    Translation,
-    Rotation,
-    Scale
-}
+public enum GizmoType { Translation, Rotation, Scale }
 
 public class Gizmo : MonoBehaviour
 {

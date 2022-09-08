@@ -1,37 +1,49 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ContextMenuEditor : MonoBehaviour
 {
-    [Header("Listening To")] [SerializeField]
-    private GameObjectEventChannelSO selectObject;
+    [Header("Listening To")] 
+    [SerializeField]
+    private TransformEventChannelSO selectObject;
+    [SerializeField] 
+    private VoidEventChannelSO cancelSelectObject;
 
-    [SerializeField] private VoidEventChannelSO cancelSelectObject;
-
-    [Header("Broadcasting On")] [SerializeField]
+    [Header("Broadcasting On")] 
+    [SerializeField]
     private ShowGizmoChannelSO showGizmoEditor;
+    [SerializeField] 
+    private VoidEventChannelSO hideGizmo;
 
-    [SerializeField] private VoidEventChannelSO hideGizmo;
-
-    [Header("UI Buttons")] [SerializeField]
+    [Header("UI Buttons")] 
+    [SerializeField]
     private Button translateButton;
 
-    [SerializeField] private Button rotateButton;
-    [SerializeField] private Button scaleButton;
-    [SerializeField] private Button backButton;
+    [SerializeField] 
+    private Button rotateButton;
+    [SerializeField] 
+    private Button scaleButton;
+    [SerializeField] 
+    private Button backButton;
     
     private enum ContextMenuState { Hidden, Main, Editing }
     
     [Header("State")] 
-    [SerializeField] private ContextMenuState currentState;
+    [SerializeField] 
+    private ContextMenuState currentState;
 
-    private Animator _animator;
     private static readonly int Show = Animator.StringToHash("Show");
     private static readonly int Edit = Animator.StringToHash("Edit");
+    
+    private Animator _animator;
+    private GraphicRaycaster _raycaster;
+    private Transform _targetTransform;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _raycaster = GetComponent<GraphicRaycaster>();
     }
 
     private void OnEnable()
@@ -58,6 +70,14 @@ public class ContextMenuEditor : MonoBehaviour
         backButton.onClick.RemoveListener(OnBackClicked);
     }
 
+    private void Update()
+    {
+        if (_targetTransform)
+        {
+            transform.position = _targetTransform.position;
+        }
+    }
+
     private void OnTranslateClicked()
     {
         if (showGizmoEditor)
@@ -79,7 +99,7 @@ public class ContextMenuEditor : MonoBehaviour
     private void OnScaleClicked()
     {
         if (showGizmoEditor)
-            showGizmoEditor.RaiseEvent(GizmoType.Translation);
+            showGizmoEditor.RaiseEvent(GizmoType.Scale);
 
         currentState = ContextMenuState.Editing;
         _animator.SetBool(Edit, true);
@@ -94,8 +114,11 @@ public class ContextMenuEditor : MonoBehaviour
         }
         else
         {
-            currentState = ContextMenuState.Hidden;
-            _animator.SetBool(Show, false);
+            // TODO: Use event for this
+            if( _targetTransform.TryGetComponent<InteractableObject>(out var interactable))
+                interactable.SetActive(false);
+
+            ResetMenu();
         }
         
         if (hideGizmo)
@@ -104,18 +127,30 @@ public class ContextMenuEditor : MonoBehaviour
 
     private void OnCancelSelect()
     {
-        currentState = ContextMenuState.Hidden;
-        _animator.SetBool(Show, false);
-        _animator.SetBool(Edit, false);
+        ResetMenu();
+        
         if (hideGizmo)
             hideGizmo.RaiseEvent();
     }
 
-    private void OnSelectObject(GameObject obj)
+    private void ResetMenu()
     {
-        transform.position = obj.transform.position;
+        currentState = ContextMenuState.Hidden;
+        _animator.SetBool(Show, false);
+        _animator.SetBool(Edit, false);
+        _raycaster.enabled = false;
+
+        _targetTransform = null;
+    }
+
+    private void OnSelectObject(Transform value)
+    {
+        _targetTransform = value;
+        
         currentState = ContextMenuState.Main;
         _animator.SetBool(Edit, false);
         _animator.SetBool(Show, true);
+        
+        _raycaster.enabled = true;
     }
 }

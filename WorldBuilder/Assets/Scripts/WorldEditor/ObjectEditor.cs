@@ -2,18 +2,37 @@ using UnityEngine;
 
 public class ObjectEditor : MonoBehaviour
 {
-    [Header("Listening")]
-    [SerializeField] private InputReader inputReader;
     [SerializeField] private GameState gameState;
+    
+    [Header("Listening To")]
+    [SerializeField] 
+    private InputReader inputReader;
+    [SerializeField] 
+    private TransformEventChannelSO selectObject;
+    [SerializeField] 
+    private VoidEventChannelSO cancelSelectObject;
 
     [Header("Gizmo Settings")]
     [SerializeField] private LayerMask gizmoMask;
     [SerializeField] private float movementSpeed = 10f;
+    
+    [Header("Selected Object")]
+    [SerializeField] private Transform currentObject;
 
-    [SerializeField] private Transform _currentObject;
-    [SerializeField] private Gizmo _currentGizmo;
+    [Header("Translation Settings")] 
+    [SerializeField] 
+    private Vector2 yLimit;
+    [SerializeField]
+    private Vector2 xLimit;
+    [SerializeField]
+    private Vector2 zLimit;
+    
+    [Header("Scale Settings")] 
+    [SerializeField] 
+    private Vector2 scaleLimit;
+    
+    private Gizmo _currentGizmo;
     private Camera _mainCamera;
-    private Plane _groundPlane;
 
     private void Awake()
     {
@@ -25,9 +44,9 @@ public class ObjectEditor : MonoBehaviour
         inputReader.PrimaryTouchStartedEvent += OnTouchStarted;
         inputReader.PrimaryTouchEndedEvent += OnTouchEnded;
         inputReader.PrimaryTouchMovedEvent += OnTouchMoved;
-        
-        // Initialize Ground Plane
-        _groundPlane.SetNormalAndPosition(Vector3.up, Vector3.zero);
+
+        selectObject.OnEventRaised += OnSelectObject;
+        cancelSelectObject.OnEventRaised += OnCancelSelect;
     }
 
     private void OnDisable()
@@ -35,6 +54,9 @@ public class ObjectEditor : MonoBehaviour
         inputReader.PrimaryTouchStartedEvent -= OnTouchStarted;
         inputReader.PrimaryTouchEndedEvent -= OnTouchEnded;
         inputReader.PrimaryTouchMovedEvent -= OnTouchMoved;
+        
+        selectObject.OnEventRaised -= OnSelectObject;
+        cancelSelectObject.OnEventRaised -= OnCancelSelect;
     }
 
     private void OnTouchStarted(Vector2 touchPosition)
@@ -45,24 +67,18 @@ public class ObjectEditor : MonoBehaviour
         var ray = _mainCamera.ScreenPointToRay(touchPosition);
         if (Physics.Raycast(ray, out var hit, 50f, gizmoMask))
         {
-            Logger.Instance.Log("STARTED TOUCHING GIZMO");
-            if (hit.transform.TryGetComponent(out _currentGizmo))
-            {
-                _currentObject = hit.transform;
-            } 
+            hit.transform.TryGetComponent(out _currentGizmo);
         }
     }
 
     private void OnTouchEnded(Vector2 touchPosition)
     {
-        Logger.Instance.Log("FINISH EDITION");
-        _currentObject = null;
         _currentGizmo = null;
     }
 
     private void OnTouchMoved(TouchData touchData)
     {
-        if (!_currentObject || !_currentGizmo) 
+        if (!currentObject || !_currentGizmo) 
             return;
 
         var delta = new Vector3(touchData.DeltaPosition.x, touchData.DeltaPosition.y, touchData.DeltaPosition.y);
@@ -71,19 +87,56 @@ public class ObjectEditor : MonoBehaviour
         switch (_currentGizmo.type)
         {
             case GizmoType.Translation:
-                _currentObject.Translate(dot * _currentGizmo.direction * Time.deltaTime * movementSpeed,
-                    Space.World);
+                Translate(dot);
                 break;
             case GizmoType.Rotation:
-                var lookDirection = _currentObject.position - _mainCamera.transform.position;
-                var angle = Vector3.SignedAngle(lookDirection, delta, _currentGizmo.direction);
-                _currentObject.Rotate(_currentGizmo.direction, angle *  movementSpeed * Time.deltaTime);
+                Rotate(delta);
                 break;
             case GizmoType.Scale:
-                var scale = Vector3.one * dot * movementSpeed * Time.deltaTime;
-                Logger.Instance.Log($"SCALE{scale}");
-                _currentObject.localScale += scale;
+                Scale(dot);
                 break;
         }
+    }
+
+    private void Translate(float dot)
+    {
+        var movement = dot * _currentGizmo.direction * Time.deltaTime * movementSpeed;
+        currentObject.Translate(movement, Space.World);
+        var position = currentObject.position;
+        position = new Vector3(
+            Mathf.Clamp(position.x, xLimit.x, xLimit.y),
+            Mathf.Clamp(position.y, yLimit.x, yLimit.y),
+            Mathf.Clamp(position.z, zLimit.x, zLimit.y)
+            );
+        currentObject.position = position;
+    }
+
+    private void Rotate(Vector3 delta)
+    {
+        var lookDirection = _mainCamera.transform.position -  currentObject.position;
+        var angle = Vector3.SignedAngle(lookDirection, delta, _currentGizmo.direction);
+        currentObject.Rotate(_currentGizmo.direction, angle *  movementSpeed * Time.deltaTime);
+    }
+
+    private void Scale(float dot)
+    {
+        var scaleFactor = -_currentGizmo.direction * dot * movementSpeed * Time.deltaTime;
+        var scale = currentObject.localScale + scaleFactor;
+        scale = new Vector3(
+            Mathf.Clamp(scale.x, scaleLimit.x, scaleLimit.y),
+            Mathf.Clamp(scale.y, scaleLimit.x, scaleLimit.y),
+            Mathf.Clamp(scale.z, scaleLimit.x, scaleLimit.y)
+            );
+        currentObject.localScale = scale;
+    }
+    
+    private void OnSelectObject(Transform value)
+    {
+        currentObject = value.transform;
+    }
+    
+    private void OnCancelSelect()
+    {
+        currentObject = null;
     }
 }
