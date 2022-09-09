@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
 public class EditorCameraController : MonoBehaviour
 {
+    [SerializeField] private GameStateSO gameState;
     [SerializeField] private InputReader inputReader;
 
     [Header("Camera reference")] [SerializeField]
@@ -16,7 +16,7 @@ public class EditorCameraController : MonoBehaviour
     [Header("Rotation")] [SerializeField] private float rotationSpeed = 10f;
 
     [SerializeField] private int groundLayer;
-    
+
     private Transform _cameraTransform;
     private bool _isPinching;
     private Plane _groundPlane;
@@ -41,6 +41,10 @@ public class EditorCameraController : MonoBehaviour
 
         // Initialize Ground Plane
         _groundPlane.SetNormalAndPosition(Vector3.up, Vector3.zero);
+
+#if UNITY_EDITOR
+        panSpeed *= 5;
+#endif
     }
 
     private void OnDisable()
@@ -58,8 +62,11 @@ public class EditorCameraController : MonoBehaviour
     /// <param name="touchPosition"></param>
     private void OnPrimaryTouchStarted(Vector2 touchPosition)
     {
+        if (gameState.CurrentGameState != GameState.World)
+            return;
+
         var ray = mainCamera.ScreenPointToRay(touchPosition);
-        if (Physics.Raycast(ray, out var hit, 50f))
+        if (Physics.Raycast(ray, out var hit, 100f))
         {
             _shouldPan = hit.transform.gameObject.layer == groundLayer;
         }
@@ -71,9 +78,9 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnPrimaryTouchMoved(TouchData touchData)
     {
-        if (_isPinching || !_shouldPan) 
+        if (_isPinching || !_shouldPan || gameState.CurrentGameState != GameState.World)
             return;
-        
+
         // Pan Movement
         var deltaMovement = GetWorldPositionDelta(touchData.Position, touchData.DeltaPosition);
         _cameraTransform.transform.Translate(deltaMovement * panSpeed * Time.deltaTime, Space.World);
@@ -85,6 +92,9 @@ public class EditorCameraController : MonoBehaviour
             return;
 
         var currentPrimaryPosition = GetWorldPosition(primaryTouch.Position);
+
+#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
+
         var currentSecondaryPosition = GetWorldPosition(secondaryTouch.Position);
         var previousPrimaryPosition = GetWorldPosition(primaryTouch.Position - primaryTouch.DeltaPosition);
         var previousSecondaryPosition = GetWorldPosition(secondaryTouch.Position - secondaryTouch.DeltaPosition);
@@ -107,6 +117,10 @@ public class EditorCameraController : MonoBehaviour
             Vector3.SignedAngle(currentSecondaryPosition - currentPrimaryPosition,
                 previousSecondaryPosition - previousPrimaryPosition, _groundPlane.normal) * rotationSpeed *
             Time.deltaTime);
+
+#else
+        _cameraTransform.RotateAround(currentPrimaryPosition, _groundPlane.normal, primaryTouch.DeltaPosition.x * rotationSpeed * Time.deltaTime);
+#endif
     }
 
     /// <summary>

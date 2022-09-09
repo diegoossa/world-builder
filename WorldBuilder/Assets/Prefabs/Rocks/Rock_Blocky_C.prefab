@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3669124406094232946}
   - component: {fileID: 3669124406093234098}
   - component: {fileID: 2011291560784259659}
-  m_Layer: 0
+  - component: {fileID: -4050675559805096702}
+  m_Layer: 6
   m_Name: Rock_Blocky_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +98,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7134236, y: 1.4433894, z: 3.0463593}
   m_Center: {x: 0, y: 0.71872556, z: 0}
+--- !u!114 &-4050675559805096702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669124406091030898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}

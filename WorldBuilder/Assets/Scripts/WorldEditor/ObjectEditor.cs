@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectEditor : MonoBehaviour
 {
-    [SerializeField] private GameState gameState;
+    [SerializeField] private GameStateSO gameState;
     
     [Header("Listening To")]
     [SerializeField] 
@@ -11,6 +13,11 @@ public class ObjectEditor : MonoBehaviour
     private TransformEventChannelSO selectObject;
     [SerializeField] 
     private VoidEventChannelSO cancelSelectObject;
+    [SerializeField] 
+    private VoidEventChannelSO deleteObject;
+    [SerializeField] 
+    private VoidEventChannelSO undoLastChange;
+    
 
     [Header("Gizmo Settings")]
     [SerializeField] private LayerMask gizmoMask;
@@ -31,12 +38,23 @@ public class ObjectEditor : MonoBehaviour
     [SerializeField] 
     private Vector2 scaleLimit;
     
-    private Gizmo _currentGizmo;
+    [SerializeField] private Gizmo _currentGizmo;
     private Camera _mainCamera;
+
+    // Undo system
+    private Stack<ICommand> _historyStack;
+    private Vector3 _lastPosition;
+    private Quaternion _lastRotation;
+    private Vector3 _lastScale;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
+    }
+
+    private void Start()
+    {
+        _historyStack = new Stack<ICommand>();
     }
 
     private void OnEnable()
@@ -47,6 +65,9 @@ public class ObjectEditor : MonoBehaviour
 
         selectObject.OnEventRaised += OnSelectObject;
         cancelSelectObject.OnEventRaised += OnCancelSelect;
+        deleteObject.OnEventRaised += OnDeleteObject;
+
+        undoLastChange.OnEventRaised += OnUndoChange;
     }
 
     private void OnDisable()
@@ -57,23 +78,56 @@ public class ObjectEditor : MonoBehaviour
         
         selectObject.OnEventRaised -= OnSelectObject;
         cancelSelectObject.OnEventRaised -= OnCancelSelect;
+        deleteObject.OnEventRaised -= OnDeleteObject;
+        
+        undoLastChange.OnEventRaised -= OnUndoChange;
     }
 
     private void OnTouchStarted(Vector2 touchPosition)
     {
-        // if (gameState != GameState.Editing)
-        //     return;
-
         var ray = _mainCamera.ScreenPointToRay(touchPosition);
-        if (Physics.Raycast(ray, out var hit, 50f, gizmoMask))
+        if (Physics.Raycast(ray, out var hit, 100f, gizmoMask))
         {
-            hit.transform.TryGetComponent(out _currentGizmo);
+            if (!hit.transform.TryGetComponent(out _currentGizmo)) 
+                return;
+            
+            if (_currentGizmo != null) 
+                gameState.UpdateGameState(GameState.Editing);
+            
+            switch (_currentGizmo.type)
+            {
+                case GizmoType.Translation:
+                    _lastPosition = currentObject.position;
+                    break;
+                case GizmoType.Rotation:
+                    _lastRotation = currentObject.rotation;
+                    break;
+                case GizmoType.Scale:
+                    _lastScale = currentObject.localScale;
+                    break;
+            }
         }
     }
 
     private void OnTouchEnded(Vector2 touchPosition)
     {
+        if (_currentGizmo == null) 
+            return;
+        
+        switch (_currentGizmo.type)
+        {
+            case GizmoType.Translation:
+                _historyStack.Push(new MoveCommand(currentObject, _lastPosition));
+                break;
+            case GizmoType.Rotation:
+                _historyStack.Push(new RotateCommand(currentObject, _lastRotation));
+                break;
+            case GizmoType.Scale:
+                _historyStack.Push(new ScaleCommand(currentObject, _lastScale));
+                break;
+        }
         _currentGizmo = null;
+        gameState.ResetToPreviousGameState();
     }
 
     private void OnTouchMoved(TouchData touchData)
@@ -120,7 +174,7 @@ public class ObjectEditor : MonoBehaviour
 
     private void Scale(float dot)
     {
-        var scaleFactor = -_currentGizmo.direction * dot * movementSpeed * Time.deltaTime;
+        var scaleFactor = _currentGizmo.direction * dot * movementSpeed * Time.deltaTime;
         var scale = currentObject.localScale + scaleFactor;
         scale = new Vector3(
             Mathf.Clamp(scale.x, scaleLimit.x, scaleLimit.y),
@@ -138,5 +192,21 @@ public class ObjectEditor : MonoBehaviour
     private void OnCancelSelect()
     {
         currentObject = null;
+    }
+    
+    private void OnDeleteObject()
+    {
+        if (currentObject)
+        {
+            _historyStack.Push(new DeleteCommand(currentObject.gameObject));
+        }
+    }
+    
+    private void OnUndoChange()
+    {
+        if (_historyStack.TryPop(out var command))
+        {
+            command.Undo();
+        }
     }
 }

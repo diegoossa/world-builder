@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.PlayerLoop;
 
 public struct TouchData
 {
@@ -19,7 +18,7 @@ public class InputReader : ScriptableObject
     public event UnityAction<TouchData, TouchData> SecondaryTouchEvent = delegate { };
     public event UnityAction StartPinchEvent = delegate { };
     public event UnityAction StopPinchEvent = delegate { };
-    
+
     private TouchInput _touchInput;
    
     private void OnEnable()

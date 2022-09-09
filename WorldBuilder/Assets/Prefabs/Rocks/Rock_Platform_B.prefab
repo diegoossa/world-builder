@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 483519498549631935}
   - component: {fileID: 483519498550761855}
   - component: {fileID: -2066187434635291760}
-  m_Layer: 0
+  - component: {fileID: -5431108046514511085}
+  m_Layer: 6
   m_Name: Rock_Platform_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +98,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8.789769, y: 5.4526367, z: 19.112741}
   m_Center: {x: 0.0000014305115, y: 2.70769, z: 0.00000047683716}
+--- !u!114 &-5431108046514511085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483519498552690623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}

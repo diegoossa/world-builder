@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6574960151360151376}
   - component: {fileID: 6574960151361150224}
   - component: {fileID: 8811879929286012833}
-  m_Layer: 0
+  - component: {fileID: 2617321204291529690}
+  m_Layer: 6
   m_Name: Rock_Sharp_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +98,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.040786, y: 3.2087636, z: 5.757759}
   m_Center: {x: 0.0000023841858, y: 1.5984542, z: 0.00000035762787}
+--- !u!114 &2617321204291529690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574960151358882640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 0
+  outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}

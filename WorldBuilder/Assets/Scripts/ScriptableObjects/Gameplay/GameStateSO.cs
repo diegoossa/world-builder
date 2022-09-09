@@ -3,7 +3,9 @@ using UnityEngine;
 public enum GameState
 {
     Loading,
-    Editing
+    World,
+    Editing,
+    Creating,
 }
 
 public class GameStateSO : ScriptableObject

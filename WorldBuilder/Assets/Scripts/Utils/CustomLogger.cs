@@ -3,7 +3,7 @@ using InputSamples;
 using TMPro;
 using UnityEngine;
 
-public class Logger : Singleton<Logger>
+public class CustomLogger : Singleton<CustomLogger>
 {
     private TextMeshProUGUI _loggerText;
     private Coroutine _currentCoroutine;
@@ -25,6 +25,11 @@ public class Logger : Singleton<Logger>
         }
         
         _currentCoroutine = StartCoroutine(ClearLogs());
+    }
+
+    public void LogAndReplace(string message)
+    {
+        _loggerText.text = message;
     }
 
     private IEnumerator ClearLogs()

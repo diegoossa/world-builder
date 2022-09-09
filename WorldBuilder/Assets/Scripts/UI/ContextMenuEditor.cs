@@ -15,17 +15,22 @@ public class ContextMenuEditor : MonoBehaviour
     private ShowGizmoChannelSO showGizmoEditor;
     [SerializeField] 
     private VoidEventChannelSO hideGizmo;
+    [SerializeField] 
+    private VoidEventChannelSO deleteObject;
+    [SerializeField] 
+    private VoidEventChannelSO resetSelection;
 
     [Header("UI Buttons")] 
     [SerializeField]
     private Button translateButton;
-
     [SerializeField] 
     private Button rotateButton;
     [SerializeField] 
     private Button scaleButton;
     [SerializeField] 
     private Button backButton;
+    [SerializeField] 
+    private Button deleteButton;
     
     private enum ContextMenuState { Hidden, Main, Editing }
     
@@ -39,11 +44,15 @@ public class ContextMenuEditor : MonoBehaviour
     private Animator _animator;
     private GraphicRaycaster _raycaster;
     private Transform _targetTransform;
+    private Transform _transform;
+    private float _originalScale;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _raycaster = GetComponent<GraphicRaycaster>();
+
+        _originalScale = transform.localScale.x;
     }
 
     private void OnEnable()
@@ -57,6 +66,9 @@ public class ContextMenuEditor : MonoBehaviour
         rotateButton.onClick.AddListener(OnRotateClicked);
         scaleButton.onClick.AddListener(OnScaleClicked);
         backButton.onClick.AddListener(OnBackClicked);
+        deleteButton.onClick.AddListener(OnDeleteClicked);
+
+        _transform = transform;
     }
 
     private void OnDisable()
@@ -68,13 +80,17 @@ public class ContextMenuEditor : MonoBehaviour
         rotateButton.onClick.RemoveListener(OnRotateClicked);
         scaleButton.onClick.RemoveListener(OnScaleClicked);
         backButton.onClick.RemoveListener(OnBackClicked);
+        deleteButton.onClick.RemoveListener(OnDeleteClicked);
     }
 
     private void Update()
     {
         if (_targetTransform)
         {
-            transform.position = _targetTransform.position;
+            _transform.position = _targetTransform.position;
+            var targetScale = _targetTransform.localScale;
+            var average = (targetScale.x + targetScale.y + targetScale.z) / 3f;
+            _transform.localScale = Vector3.one * (average * _originalScale);;
         }
     }
 
@@ -114,23 +130,21 @@ public class ContextMenuEditor : MonoBehaviour
         }
         else
         {
-            // TODO: Use event for this
-            if( _targetTransform.TryGetComponent<InteractableObject>(out var interactable))
-                interactable.SetActive(false);
-
             ResetMenu();
         }
+    }
+
+    private void OnDeleteClicked()
+    {
+        if(deleteObject)
+            deleteObject.RaiseEvent();
         
-        if (hideGizmo)
-            hideGizmo.RaiseEvent();
+        ResetMenu();
     }
 
     private void OnCancelSelect()
     {
         ResetMenu();
-        
-        if (hideGizmo)
-            hideGizmo.RaiseEvent();
     }
 
     private void ResetMenu()
@@ -141,6 +155,13 @@ public class ContextMenuEditor : MonoBehaviour
         _raycaster.enabled = false;
 
         _targetTransform = null;
+        _transform.localScale = Vector3.one * _originalScale;
+        
+        if (resetSelection)
+            resetSelection.RaiseEvent();
+        
+        if (hideGizmo)
+            hideGizmo.RaiseEvent();
     }
 
     private void OnSelectObject(Transform value)

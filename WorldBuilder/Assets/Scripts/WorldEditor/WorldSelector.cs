@@ -6,6 +6,8 @@ public class WorldSelector : MonoBehaviour
     [Header("Listening To")]
     [SerializeField] private InputReader inputReader;
 
+    [SerializeField] private VoidEventChannelSO resetSelection;
+
     [Header("Broadcasting On")] 
     [SerializeField] private TransformEventChannelSO selectObjectChannel;
     [SerializeField] private VoidEventChannelSO cancelSelectObjectChannel;
@@ -24,11 +26,13 @@ public class WorldSelector : MonoBehaviour
     private void OnEnable()
     {
         inputReader.PrimaryTapEvent += OnPrimaryTap;
+        resetSelection.OnEventRaised += ClearSelection;
     }
 
     private void OnDisable()
     {
         inputReader.PrimaryTapEvent -= OnPrimaryTap;
+        resetSelection.OnEventRaised -= ClearSelection;
     }
 
     private void Update()
@@ -42,7 +46,7 @@ public class WorldSelector : MonoBehaviour
             return;
         
         var ray = _mainCamera.ScreenPointToRay(tapPosition);
-        if (Physics.Raycast(ray, out var hit, 50f, interactableMask))
+        if (Physics.Raycast(ray, out var hit, 100f, interactableMask))
         {
             if (selectedObject != hit.transform)
                 ClearSelection();
