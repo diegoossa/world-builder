@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    // [SerializeField] private bool active;
-    [SerializeField] private GameObject visual;
-    [SerializeField] private Shader outlineShader;
+    [Header("Listening To")] 
+    [SerializeField]
+    private VoidEventChannelSO clearAllObjects;
+    
+    [SerializeField] 
+    private GameObject visual;
+    [SerializeField] 
+    private Shader outlineShader;
+    
     private Shader _originalShader;
     private Renderer _renderer;
 
-    public void SetActive(bool value)
+    public void Select(bool value)
     {
         if (value)
         {
@@ -27,6 +33,11 @@ public class InteractableObject : MonoBehaviour
         _originalShader = _renderer.material.shader;
     }
 
+    private void OnEnable()
+    {
+        clearAllObjects.OnEventRaised += OnClearAllObjects;
+    }
+
     private void OutlineEnable()
     {
         var materials = _renderer.materials;
@@ -39,5 +50,12 @@ public class InteractableObject : MonoBehaviour
         var materials = _renderer.materials;
         foreach (var material in materials)
             material.shader = _originalShader;
+    }
+    
+    
+    private void OnClearAllObjects()
+    {
+        // TODO: Create Command for this
+        gameObject.SetActive(false);
     }
 }

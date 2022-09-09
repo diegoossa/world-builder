@@ -54,7 +54,7 @@ public class WorldSelector : MonoBehaviour
             selectedObject = hit.transform;
             if (selectedObject.TryGetComponent<InteractableObject>(out var interactableObject))
             {
-                interactableObject.SetActive(true);
+                interactableObject.Select(true);
             }
             
             if(selectObjectChannel)
@@ -73,7 +73,7 @@ public class WorldSelector : MonoBehaviour
         
         if (selectedObject.TryGetComponent<InteractableObject>(out var interactableObject))
         {
-            interactableObject.SetActive(false);
+            interactableObject.Select(false);
             selectedObject = null;
         }
         

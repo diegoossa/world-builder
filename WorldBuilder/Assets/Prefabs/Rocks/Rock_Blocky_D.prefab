@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearAllObjects: {fileID: 11400000, guid: 013f50d256314974681f1da2b42653e5, type: 2}
   visual: {fileID: 4977897765642785518}
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
 --- !u!114 &-7129905797765275511
@@ -138,10 +139,12 @@ MonoBehaviour:
     - {fileID: -7440149463209536953}
     - {fileID: 2779223228038166419}
     - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 11400000, guid: 013f50d256314974681f1da2b42653e5, type: 2}
+    - {fileID: 11500000, guid: cfca48a5adc978241a81d4ccbf43abbc, type: 3}
     - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
     - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
     - {fileID: -7129905797765275511}
-    _Values: d1829b92b33bf42ffa6aafdeb172663fdd6db7a4e256c7221a0ba88bb44b6a4e86e3f46419887170d631d8dc51df9d4ebe9786e3056ffb79bb78adbee480e345d5fe659566cb5864df27cfb07eebd0055808b7b42db1ac092291e16ec9cfaa54
+    _Values: d1829b92b33bf42ffa6aafdeb172663fdd6db7a4e256c7221a0ba88bb44b6a4e86e3f46419887170d631d8dc51df9d4ebe9786e3056ffb79bb78adbee480e345d5fe659566cb58649b6983181520e40422ee3a88f883884adf27cfb07eebd0055808b7b42db1ac092291e16ec9cfaa54
 --- !u!114 &-5187095408942333139
 MonoBehaviour:
   m_ObjectHideFlags: 0
