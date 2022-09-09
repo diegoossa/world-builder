@@ -29,14 +29,13 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - Cinemachine
+    - Assembly-CSharp-firstpass
     - Tayx.Graphy
+    - Cinemachine
     - WorldBuilder
     - DOTween.Modules
-    - Assembly-CSharp-firstpass
     - Tayx.Graphy.Editor
     - PPv2URPConverters
-    - CodeStage.Maintainer.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
