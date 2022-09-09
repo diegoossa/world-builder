@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EditorCameraController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EditorCameraController : MonoBehaviour
     private Camera mainCamera;
 
     [Header("Panning")] [SerializeField] private float panSpeed = 10f;
+    [SerializeField] private Vector2 cameraBounds;
 
     [Header("Zoom")] [SerializeField] private float minZoom = 30f;
     [SerializeField] private float maxZoom = 3f;
@@ -21,6 +23,7 @@ public class EditorCameraController : MonoBehaviour
     private bool _isPinching;
     private Plane _groundPlane;
     private bool _shouldPan;
+    private bool _isUIFocus;
 
     private void Awake()
     {
@@ -55,6 +58,11 @@ public class EditorCameraController : MonoBehaviour
         inputReader.StartPinchEvent -= OnStartPinch;
         inputReader.StopPinchEvent -= OnStopPinch;
     }
+    
+    private void Update()
+    {
+        _isUIFocus = EventSystem.current.IsPointerOverGameObject();
+    }
 
     /// <summary>
     /// Check if we press the ground so we can pan
@@ -78,17 +86,25 @@ public class EditorCameraController : MonoBehaviour
 
     private void OnPrimaryTouchMoved(TouchData touchData)
     {
-        if (_isPinching || !_shouldPan || gameState.CurrentGameState != GameState.World)
+        if (_isPinching || !_shouldPan || gameState.CurrentGameState != GameState.World || _isUIFocus)
             return;
 
         // Pan Movement
         var deltaMovement = GetWorldPositionDelta(touchData.Position, touchData.DeltaPosition);
+        var cameraPositionCache = _cameraTransform.position;
         _cameraTransform.transform.Translate(deltaMovement * panSpeed * Time.deltaTime, Space.World);
+        if (_cameraTransform.position.x < cameraBounds.x ||
+            _cameraTransform.position.x > cameraBounds.y ||
+            _cameraTransform.position.z < cameraBounds.x ||
+            _cameraTransform.position.z > cameraBounds.y)
+        {
+            _cameraTransform.position = cameraPositionCache;
+        }
     }
 
     private void OnStartPinch(TouchData primaryTouch, TouchData secondaryTouch)
     {
-        if (!_isPinching)
+        if (!_isPinching || _isUIFocus)
             return;
 
         var currentPrimaryPosition = GetWorldPosition(primaryTouch.Position);
