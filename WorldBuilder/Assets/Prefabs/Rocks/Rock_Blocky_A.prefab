@@ -110,5 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
+  visual: {fileID: 6030869050472975639}
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}

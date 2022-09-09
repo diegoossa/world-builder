@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    [SerializeField] private bool active;
-
+    // [SerializeField] private bool active;
+    [SerializeField] private GameObject visual;
     [SerializeField] private Shader outlineShader;
     private Shader _originalShader;
     private Renderer _renderer;
@@ -18,14 +18,12 @@ public class InteractableObject : MonoBehaviour
         {
             OutlineDisable();
         }
-
-        active = value;
     }
 
     private void Start()
     {
         outlineShader = Shader.Find("Outline/Extrude Vertex/Standard");
-        _renderer = GetComponent<Renderer>();
+        _renderer = visual.GetComponent<Renderer>();
         _originalShader = _renderer.material.shader;
     }
 
