@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 6565345947918505450}
   - component: {fileID: -1459172825954478459}
   - component: {fileID: 1809463306624059892}
+  - component: {fileID: 4518898634033475955}
+  - component: {fileID: 1400343085709900368}
   m_Layer: 6
   m_Name: Rock_Sharp_B
   m_TagString: Untagged
@@ -144,3 +146,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 820646874243659896}
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+--- !u!114 &4518898634033475955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565345947918535050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 2987707926270877695
+  localRefs:
+    _Keys:
+    - {fileID: 6565345947918535050}
+    - {fileID: 6565345947918505450}
+    - {fileID: -1459172825954478459}
+    - {fileID: 1809463306624059892}
+    - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 820646874243659896}
+    - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+    - {fileID: 4518898634033475955}
+    _Values: bba95e1c94ac85180db691bf21cc7e59491e97d92cb60067613afe76eab14e478c1fc1b47d515c24ed45cfb1e217993221a53c69e19cfc05a8f6bb59ae0f2d5b98b6cdfef4362308
+--- !u!114 &1400343085709900368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565345947918535050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 6565345947918505450}

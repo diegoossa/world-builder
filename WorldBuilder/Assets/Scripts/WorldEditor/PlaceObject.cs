@@ -7,7 +7,10 @@ public class PlaceObject : MonoBehaviour
     
     [Header("Listening To")]
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private CreateObjectEventChannelSO createObject;
+    [SerializeField] private DragItemEventChannelSO dragItem;
+    
+    [Header("Broadcasting On")]
+    [SerializeField] private GameObjectCreatedChannelSO gameObjectCreated;
 
     [Header("Dragging Settings")] 
     [SerializeField]
@@ -34,14 +37,14 @@ public class PlaceObject : MonoBehaviour
     {
         inputReader.PrimaryTouchMovedEvent += OnTouchMoved;
         inputReader.PrimaryTouchEndedEvent += OnTouchEnded;
-        createObject.OnEventRaised += OnStartCreatingObject;
+        dragItem.OnEventRaised += OnStartCreatingObject;
     }
     
     private void OnDisable()
     {
         inputReader.PrimaryTouchMovedEvent -= OnTouchMoved;
         inputReader.PrimaryTouchEndedEvent -= OnTouchEnded;
-        createObject.OnEventRaised -= OnStartCreatingObject;
+        dragItem.OnEventRaised -= OnStartCreatingObject;
     }
 
     private void OnStartCreatingObject(Vector2 startPosition, GameObject prefab)
@@ -76,6 +79,9 @@ public class PlaceObject : MonoBehaviour
             {
                 _objectCreatedTransform = Instantiate(_prefabToCreate).transform;
                 _objectCreated = true;
+                
+                // To Save Data
+                gameObjectCreated.RaiseEvent(_prefabToCreate, _objectCreatedTransform);
             }
         }
     }

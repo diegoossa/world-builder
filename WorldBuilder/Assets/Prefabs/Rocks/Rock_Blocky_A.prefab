@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6030869050474910679}
   - component: {fileID: 3211428792530921136}
   - component: {fileID: 49986143583268136}
+  - component: {fileID: -5024707127842301372}
+  - component: {fileID: 7109367646115069203}
   m_Layer: 6
   m_Name: Rock_Blocky_A
   m_TagString: Untagged
@@ -112,3 +114,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 6030869050472975639}
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+--- !u!114 &-5024707127842301372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030869050472975639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 5297728389823361729
+  localRefs:
+    _Keys:
+    - {fileID: 6030869050472975639}
+    - {fileID: 6030869050472616247}
+    - {fileID: 6030869050473910551}
+    - {fileID: 4300018, guid: 8314f526bc5cf614eaeb6f104c8f34c8, type: 3}
+    - {fileID: 6030869050474910679}
+    - {fileID: 2100000, guid: b8b554788fe92ab458e7763c9566b347, type: 2}
+    - {fileID: 3211428792530921136}
+    - {fileID: 49986143583268136}
+    - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+    - {fileID: -5024707127842301372}
+    _Values: 6034abba8a1a990fdd44f47969fd892117734899e4972757c945a76eb0151f59908e461d4517197c1dbd21b042aa9f40fc0ecf7207ec6508a3fd7c2f3df73f0e9cb216254993232f8dc5b5a2b9d899731c188e5eba53ad7bf44fc0439349ba13
+--- !u!114 &7109367646115069203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030869050472975639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 6030869050472616247}

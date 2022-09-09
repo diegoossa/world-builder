@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1897975603717731027}
   - component: {fileID: -111827999494583835}
   - component: {fileID: -959050830798913628}
+  - component: {fileID: 2113977434752542305}
+  - component: {fileID: 4615589706958946729}
   m_Layer: 6
   m_Name: Rock_Sharp_E
   m_TagString: Untagged
@@ -61,6 +63,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 8928299471853245192}
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+--- !u!114 &2113977434752542305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897975603717762739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 8439061007062638685
+  localRefs:
+    _Keys:
+    - {fileID: 1897975603717762739}
+    - {fileID: 1897975603717731027}
+    - {fileID: -111827999494583835}
+    - {fileID: -959050830798913628}
+    - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 8928299471853245192}
+    - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+    - {fileID: 2113977434752542305}
+    _Values: 955e3a01338feb3d8785f39fdd0b3a66dab684ccc26a1f3d4cb1edc6ab765565febb73ae3d94b62334b70e684b8b936825c80a02ea16c82940fcb682a124910f308da122988c2944
+--- !u!114 &4615589706958946729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897975603717762739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 1897975603717731027}
 --- !u!1 &8928299471853245192
 GameObject:
   m_ObjectHideFlags: 0

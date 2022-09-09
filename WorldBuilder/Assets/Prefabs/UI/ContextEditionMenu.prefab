@@ -625,8 +625,9 @@ MonoBehaviour:
   selectObject: {fileID: 11400000, guid: 4a68980f4056d694e8c47f38a650b470, type: 2}
   cancelSelectObject: {fileID: 11400000, guid: 23da3b1744c14d8438cd61036f092a78, type: 2}
   showGizmoEditor: {fileID: 11400000, guid: 2fd85e70962f73d49b01e1f0d5d747f5, type: 2}
-  hideGizmo: {fileID: 11400000, guid: ee1d9f15e5c4acd4bae36b2cc2230267, type: 2}
+  hideGizmos: {fileID: 11400000, guid: ee1d9f15e5c4acd4bae36b2cc2230267, type: 2}
   deleteObject: {fileID: 11400000, guid: 35a4b660622db1348ba15198bcdc7047, type: 2}
+  resetSelection: {fileID: 11400000, guid: a618fb33dbf0b704296ab2a83f778adb, type: 2}
   translateButton: {fileID: 8144509838237573255}
   rotateButton: {fileID: 8144509838560642059}
   scaleButton: {fileID: 8144509838175549949}

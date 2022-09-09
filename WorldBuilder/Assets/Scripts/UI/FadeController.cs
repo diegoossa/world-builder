@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class FadeController : MonoBehaviour
 {
-    [SerializeField] private FadeChannelSO fadeChannelSO;
+    [SerializeField] 
+    private FadeChannelSO fadeChannelSO;
+    [SerializeField] 
+    private Image image;
 
     private void OnEnable()
     {
@@ -16,6 +21,6 @@ public class FadeController : MonoBehaviour
 
     private void InitiateFade(bool fadeIn, float duration, Color desiredColor)
     {
-        //_imageComponent.DOBlendableColor(desiredColor, duration);
+        image.DOBlendableColor(desiredColor, duration);
     }
 }

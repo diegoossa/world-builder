@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ public class ObjectEditor : MonoBehaviour
     [SerializeField] 
     private Vector2 scaleLimit;
     
-    [SerializeField] private Gizmo _currentGizmo;
+    private Gizmo _currentGizmo;
     private Camera _mainCamera;
 
     // Undo system

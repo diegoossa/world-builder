@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 8121206340233238778}
   - component: {fileID: 12746805332925055}
   - component: {fileID: 6607578221577202051}
+  - component: {fileID: 1934885141688139137}
+  - component: {fileID: -568989777774139457}
   m_Layer: 6
   m_Name: Rock_Bridge_B
   m_TagString: Untagged
@@ -144,3 +146,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.8751836, y: 1.286641, z: 1.1573713}
   m_Center: {x: -0.003353119, y: 0.6491576, z: 0.0056203604}
+--- !u!114 &1934885141688139137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121206340233659610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 6825558347069932454
+  localRefs:
+    _Keys:
+    - {fileID: 8121206340233659610}
+    - {fileID: 8121206340233238778}
+    - {fileID: 12746805332925055}
+    - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 7508077316986478570}
+    - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+    - {fileID: 6607578221577202051}
+    - {fileID: 1934885141688139137}
+    _Values: e7ad0f1cd5ad4040391f57b2e2961f2a04f05768b7ffc07ddd066f41c909ac72aeefafe19353b17bc2e5af826e43280edc5cbce867dde9196f8dfadc1d810941ccc961d14601be4e
+--- !u!114 &-568989777774139457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121206340233659610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 8121206340233238778}

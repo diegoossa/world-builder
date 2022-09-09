@@ -14,7 +14,7 @@ public class ContextMenuEditor : MonoBehaviour
     [SerializeField]
     private ShowGizmoChannelSO showGizmoEditor;
     [SerializeField] 
-    private VoidEventChannelSO hideGizmo;
+    private VoidEventChannelSO hideGizmos;
     [SerializeField] 
     private VoidEventChannelSO deleteObject;
     [SerializeField] 
@@ -132,6 +132,9 @@ public class ContextMenuEditor : MonoBehaviour
         {
             ResetMenu();
         }
+        
+        if (hideGizmos)
+            hideGizmos.RaiseEvent();
     }
 
     private void OnDeleteClicked()
@@ -140,11 +143,17 @@ public class ContextMenuEditor : MonoBehaviour
             deleteObject.RaiseEvent();
         
         ResetMenu();
+        
+        if (hideGizmos)
+            hideGizmos.RaiseEvent();
     }
 
     private void OnCancelSelect()
     {
         ResetMenu();
+        
+        if (hideGizmos)
+            hideGizmos.RaiseEvent();
     }
 
     private void ResetMenu()
@@ -159,9 +168,6 @@ public class ContextMenuEditor : MonoBehaviour
         
         if (resetSelection)
             resetSelection.RaiseEvent();
-        
-        if (hideGizmo)
-            hideGizmo.RaiseEvent();
     }
 
     private void OnSelectObject(Transform value)

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3669124406090808658}
   - component: {fileID: 8863531956433021829}
   - component: {fileID: 4860164567464299101}
+  - component: {fileID: -9208359849581145624}
+  - component: {fileID: 6875896380798321353}
   m_Layer: 6
   m_Name: Rock_Blocky_C
   m_TagString: Untagged
@@ -61,6 +63,51 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3679184, y: 1.1175821, z: 2.3616776}
   m_Center: {x: -0.001896441, y: 0.55567086, z: 0.013275385}
+--- !u!114 &-9208359849581145624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669124406091030898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baff8732cd3074ef88b34f9cc487846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 6816532763770622172
+  localRefs:
+    _Keys:
+    - {fileID: 3669124406091030898}
+    - {fileID: 3669124406090808658}
+    - {fileID: 8863531956433021829}
+    - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
+    - {fileID: 8799223002353559456}
+    - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
+    - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+    - {fileID: 4860164567464299101}
+    - {fileID: -9208359849581145624}
+    _Values: 1b17e79dcd464f2ee7a8a7fe05151f3ba71d5e0332c6037af3fd68ea0fae2a3ebecbf03b1e1f897d8144fccb38ccbc390ede787471636f54ed92703451c6c1377f68bcd0055b5a78
+--- !u!114 &6875896380798321353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669124406091030898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfcc9ceea0bf419cb3bcaf548c2600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveLayer: 0
+  saveTag: 0
+  saveName: 0
+  saveHideFlags: 0
+  saveActive: 1
+  saveChildren: 0
+  componentsToSave:
+  - {fileID: 3669124406090808658}
 --- !u!1 &8799223002353559456
 GameObject:
   m_ObjectHideFlags: 0
