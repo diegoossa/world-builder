@@ -30,8 +30,8 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp-firstpass
-    - Tayx.Graphy
     - Cinemachine
+    - Tayx.Graphy
     - WorldBuilder
     - DOTween.Modules
     - Tayx.Graphy.Editor

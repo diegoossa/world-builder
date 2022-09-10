@@ -164,8 +164,7 @@ public class ContextMenuEditor : MonoBehaviour
         _raycaster.enabled = false;
 
         _targetTransform = null;
-        _transform.localScale = Vector3.one * _originalScale;
-        
+
         if (resetSelection)
             resetSelection.RaiseEvent();
     }
@@ -173,6 +172,7 @@ public class ContextMenuEditor : MonoBehaviour
     private void OnSelectObject(Transform value)
     {
         _targetTransform = value;
+        _transform.localScale = Vector3.one * _originalScale;
         
         currentState = ContextMenuState.Main;
         _animator.SetBool(Edit, false);

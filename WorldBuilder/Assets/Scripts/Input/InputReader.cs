@@ -19,72 +19,97 @@ public class InputReader : ScriptableObject
     public event UnityAction StartPinchEvent = delegate { };
     public event UnityAction StopPinchEvent = delegate { };
 
-    private TouchInput _touchInput;
-   
+#if UNITY_EDITOR
+    //Mouse Only
+    public event UnityAction<Vector2> RightClickStartedEvent = delegate { };
+    public event UnityAction RightClickEndedEvent = delegate { };
+    public event UnityAction<float> ScrollEvent = delegate { };
+#endif
+
+    private InputControls _inputControls;
+
     private void OnEnable()
     {
-        if (_touchInput == null)
+        if (_inputControls == null)
         {
-            _touchInput = new TouchInput();
-            _touchInput.Enable();
+            _inputControls = new InputControls();
+            _inputControls.Enable();
 
-            _touchInput.Touch.PrimaryTouchContact.performed += _ =>  PrimaryTouchStarted();
-            _touchInput.Touch.PrimaryTouchContact.canceled += _ => PrimaryTouchEnded();
-            _touchInput.Touch.PrimaryTouchDelta.performed += _ => PrimaryTouchMove();
-            _touchInput.Touch.SecondaryTouchPosition.performed += _ => StartPinch();
-            _touchInput.Touch.SecondaryTouchContact.started += _ => StartPinchEvent.Invoke();
-            _touchInput.Touch.SecondaryTouchContact.canceled += _ => StopPinchEvent.Invoke();
-            _touchInput.Touch.PrimaryTap.performed += _ => PrimaryTap();
+            _inputControls.Game.PrimaryTouchContact.performed += _ => OnPrimaryTouchStarted();
+            _inputControls.Game.PrimaryTouchContact.canceled += _ => OnPrimaryTouchEnded();
+            _inputControls.Game.PrimaryTouchDelta.performed += _ => OnPrimaryTouchMove();
+            _inputControls.Game.PrimaryTap.performed += _ => OnPrimaryTap();
+            _inputControls.Game.SecondaryTouchPosition.performed += _ => OnStartPinch();
+            _inputControls.Game.SecondaryTouchContact.started += _ => StartPinchEvent.Invoke();
+            _inputControls.Game.SecondaryTouchContact.canceled += _ => StopPinchEvent.Invoke();
+
+#if UNITY_EDITOR
+            _inputControls.Game.RightClick.performed += _ => OnRightClick();
+            _inputControls.Game.RightClick.canceled += _ => RightClickEndedEvent.Invoke();
+            _inputControls.Game.Scroll.performed += OnScroll;
+#endif
         }
     }
 
     private void OnDisable()
     {
-        _touchInput.Disable();
+        _inputControls.Disable();
     }
 
-    private void PrimaryTap()
+    private void OnPrimaryTap()
     {
-        PrimaryTapEvent.Invoke(_touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>());
+        PrimaryTapEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
     }
 
     /// <summary>
     /// Panning movement
     /// </summary>
-    private void PrimaryTouchMove()
+    private void OnPrimaryTouchMove()
     {
-        PrimaryTouchMovedEvent.Invoke( new TouchData
+        PrimaryTouchMovedEvent.Invoke(new TouchData
         {
-            Position = _touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>(),
-            DeltaPosition = _touchInput.Touch.PrimaryTouchDelta.ReadValue<Vector2>()
+            Position = _inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>(),
+            DeltaPosition = _inputControls.Game.PrimaryTouchDelta.ReadValue<Vector2>()
         });
     }
 
     /// <summary>
     /// Zoom and Rotate
     /// </summary>
-    private void StartPinch()
+    private void OnStartPinch()
     {
         SecondaryTouchEvent.Invoke(
             new TouchData
             {
-                Position = _touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _touchInput.Touch.PrimaryTouchDelta.ReadValue<Vector2>()
+                Position = _inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>(),
+                DeltaPosition = _inputControls.Game.PrimaryTouchDelta.ReadValue<Vector2>()
             },
             new TouchData
             {
-                Position = _touchInput.Touch.SecondaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _touchInput.Touch.SecondaryTouchDelta.ReadValue<Vector2>()
+                Position = _inputControls.Game.SecondaryTouchPosition.ReadValue<Vector2>(),
+                DeltaPosition = _inputControls.Game.SecondaryTouchDelta.ReadValue<Vector2>()
             });
     }
-    
-    private void PrimaryTouchStarted()
+
+    private void OnPrimaryTouchStarted()
     {
-        PrimaryTouchStartedEvent.Invoke(_touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>());
+        PrimaryTouchStartedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+    }
+
+    private void OnPrimaryTouchEnded()
+    {
+        PrimaryTouchEndedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+    }
+
+#if UNITY_EDITOR
+    private void OnRightClick()
+    {
+        RightClickStartedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
     }
     
-    private void PrimaryTouchEnded()
+    private void OnScroll(InputAction.CallbackContext ctx)
     {
-        PrimaryTouchEndedEvent.Invoke(_touchInput.Touch.PrimaryTouchPosition.ReadValue<Vector2>());
+        ScrollEvent.Invoke(ctx.ReadValue<float>());
     }
+#endif
 }
