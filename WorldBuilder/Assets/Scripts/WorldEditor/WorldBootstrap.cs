@@ -10,5 +10,6 @@ public class WorldBootstrap : MonoBehaviour
     private void Start()
     {
         gameState.UpdateGameState(GameState.World);
+        gameState.UpdateGameState(GameState.World);
     }
 }

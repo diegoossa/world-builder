@@ -37,29 +37,27 @@ public class PlaceObject : MonoBehaviour
     {
         inputReader.PrimaryTouchMovedEvent += OnTouchMoved;
         inputReader.PrimaryTouchEndedEvent += OnTouchEnded;
-        dragItem.OnEventRaised += OnStartCreatingObject;
+        
+        dragItem.OnEventRaised += OnDraggingObject;
     }
     
     private void OnDisable()
     {
         inputReader.PrimaryTouchMovedEvent -= OnTouchMoved;
         inputReader.PrimaryTouchEndedEvent -= OnTouchEnded;
-        dragItem.OnEventRaised -= OnStartCreatingObject;
+        
+        dragItem.OnEventRaised -= OnDraggingObject;
     }
 
-    private void OnStartCreatingObject(Vector2 startPosition, GameObject prefab)
+    private void OnDraggingObject(Vector2 startPosition, GameObject prefab)
     {
         _startPosition = startPosition;
         _prefabToCreate = prefab;
         _canDrag = true;
-        gameState.UpdateGameState(GameState.Creating);
     }
 
     private void OnTouchMoved(TouchData touchData)
     {
-        if (gameState.CurrentGameState != GameState.Creating)
-            return;
-
         if (!_canDrag)
             return;
 
@@ -82,6 +80,9 @@ public class PlaceObject : MonoBehaviour
                 
                 // To Save Data
                 gameObjectCreated.RaiseEvent(_prefabToCreate, _objectCreatedTransform);
+                
+                // Set gameState
+                gameState.UpdateGameState(GameState.Creating);
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum GameState
@@ -18,7 +19,13 @@ public class GameStateSO : ScriptableObject
     private GameState currentGameState;
     [SerializeField] 
     private GameState previousGameState;
-    
+
+    private void OnEnable()
+    {
+        currentGameState = GameState.World;
+        previousGameState = GameState.World;
+    }
+
     public void UpdateGameState(GameState newGameState)
     {
         if (newGameState == CurrentGameState)

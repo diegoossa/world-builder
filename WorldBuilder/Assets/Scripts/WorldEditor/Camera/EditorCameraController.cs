@@ -95,7 +95,7 @@ public class EditorCameraController : MonoBehaviour
     /// <param name="touchPosition"></param>
     private void OnPrimaryTouchStarted(Vector2 touchPosition)
     {
-        _shouldPan = gameState.CurrentGameState == GameState.World;
+        _shouldPan = true;
     }
     
     private void OnPrimaryTouchEnded(Vector2 position)
@@ -117,6 +117,9 @@ public class EditorCameraController : MonoBehaviour
             return;
         }
 #endif
+        if (gameState.CurrentGameState != GameState.World)
+            return;
+        
         if (_isPinching || !_shouldPan || _isUIFocus)
             return;
 
