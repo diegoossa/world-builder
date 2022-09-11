@@ -2,7 +2,7 @@
     "name": "InputControls",
     "maps": [
         {
-            "name": "Game",
+            "name": "WorldEditor",
             "id": "10af303e-bea4-41a8-8039-068c63d6abec",
             "actions": [
                 {
@@ -228,6 +228,54 @@
                     "processors": "",
                     "groups": "Mouse",
                     "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Game",
+            "id": "d41f0e22-7492-4312-b6ee-5db6ac700cfe",
+            "actions": [
+                {
+                    "name": "Horizontal",
+                    "type": "Value",
+                    "id": "b1458514-b7b6-4542-b248-a8c11eea0781",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Vertical",
+                    "type": "Value",
+                    "id": "8cf0b82c-89a8-4cc2-b4f7-66a517f4547d",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fe2aadc1-45ce-4e41-a4a4-bbec6de68a85",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch;Mouse",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36372c75-3409-48f1-ac16-86d26edfc971",
+                    "path": "<Gamepad>/leftStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch;Mouse",
+                    "action": "Vertical",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

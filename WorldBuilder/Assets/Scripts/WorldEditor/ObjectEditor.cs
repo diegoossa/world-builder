@@ -154,7 +154,7 @@ public class ObjectEditor : MonoBehaviour
     private void Translate(float dot)
     {
         var movement = dot * _currentGizmo.direction * Time.deltaTime * movementSpeed;
-        currentObject.Translate(movement, Space.World);
+        currentObject.Translate(movement, Space.Self);
         var position = currentObject.position;
         position = new Vector3(
             Mathf.Clamp(position.x, xLimit.x, xLimit.y),

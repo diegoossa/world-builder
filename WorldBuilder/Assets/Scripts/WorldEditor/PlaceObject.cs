@@ -10,7 +10,7 @@ public class PlaceObject : MonoBehaviour
     [SerializeField] private DragItemEventChannelSO dragItem;
     
     [Header("Broadcasting On")]
-    [SerializeField] private GameObjectCreatedChannelSO gameObjectCreated;
+    [SerializeField] private GameObjectEventChannelSO playerCreatedEvent;
 
     [Header("Dragging Settings")] 
     [SerializeField]
@@ -24,7 +24,7 @@ public class PlaceObject : MonoBehaviour
     
     private bool _canDrag;
     private bool _objectCreated;
-
+    
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -75,12 +75,17 @@ public class PlaceObject : MonoBehaviour
             var yDistance = touchData.Position.y - _startPosition.y;
             if (yDistance >= minDistanceToCreate)
             {
-                _objectCreatedTransform = Instantiate(_prefabToCreate).transform;
+                var currentObject = Instantiate(_prefabToCreate);
+
+                // Check if object created is a Player
+                if (currentObject.CompareTag("Player"))
+                {
+                    playerCreatedEvent.RaiseEvent(currentObject);
+                }
+
+                _objectCreatedTransform = currentObject.transform;
                 _objectCreated = true;
-                
-                // To Save Data
-                gameObjectCreated.RaiseEvent(_prefabToCreate, _objectCreatedTransform);
-                
+
                 // Set gameState
                 gameState.UpdateGameState(GameState.Creating);
             }

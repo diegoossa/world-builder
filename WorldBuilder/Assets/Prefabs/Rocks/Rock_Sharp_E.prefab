@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clearAllObjects: {fileID: 11400000, guid: 013f50d256314974681f1da2b42653e5, type: 2}
   visual: {fileID: 8928299471853245192}
+  id: 14
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
 --- !u!114 &2113977434752542305
 MonoBehaviour:

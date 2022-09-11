@@ -37,12 +37,10 @@ public class GizmoManager : MonoBehaviour
         cancelSelectObject.OnEventRaised -= OnCancelSelect;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_targetTransform)
-        {
             transform.position = _targetTransform.position;
-        }
     }
 
     private void OnShowGizmo(GizmoType type)

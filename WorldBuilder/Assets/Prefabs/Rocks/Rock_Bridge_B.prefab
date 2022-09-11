@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clearAllObjects: {fileID: 11400000, guid: 013f50d256314974681f1da2b42653e5, type: 2}
   visual: {fileID: 7508077316986478570}
+  id: 6
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
 --- !u!65 &6607578221577202051
 BoxCollider:

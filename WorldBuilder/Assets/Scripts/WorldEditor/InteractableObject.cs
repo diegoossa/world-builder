@@ -6,8 +6,12 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO clearAllObjects;
     
+    [Header("Interactable Settings")]
     [SerializeField] 
     private GameObject visual;
+    public int id;
+    
+    [Header("Outline Shader")]
     [SerializeField] 
     private Shader outlineShader;
     

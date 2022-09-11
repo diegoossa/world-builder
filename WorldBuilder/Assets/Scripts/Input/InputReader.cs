@@ -35,18 +35,18 @@ public class InputReader : ScriptableObject
             _inputControls = new InputControls();
             _inputControls.Enable();
 
-            _inputControls.Game.PrimaryTouchContact.performed += _ => OnPrimaryTouchStarted();
-            _inputControls.Game.PrimaryTouchContact.canceled += _ => OnPrimaryTouchEnded();
-            _inputControls.Game.PrimaryTouchDelta.performed += _ => OnPrimaryTouchMove();
-            _inputControls.Game.PrimaryTap.performed += _ => OnPrimaryTap();
-            _inputControls.Game.SecondaryTouchPosition.performed += _ => OnStartPinch();
-            _inputControls.Game.SecondaryTouchContact.started += _ => StartPinchEvent.Invoke();
-            _inputControls.Game.SecondaryTouchContact.canceled += _ => StopPinchEvent.Invoke();
+            _inputControls.WorldEditor.PrimaryTouchContact.performed += _ => OnPrimaryTouchStarted();
+            _inputControls.WorldEditor.PrimaryTouchContact.canceled += _ => OnPrimaryTouchEnded();
+            _inputControls.WorldEditor.PrimaryTouchDelta.performed += _ => OnPrimaryTouchMove();
+            _inputControls.WorldEditor.PrimaryTap.performed += _ => OnPrimaryTap();
+            _inputControls.WorldEditor.SecondaryTouchPosition.performed += _ => OnStartPinch();
+            _inputControls.WorldEditor.SecondaryTouchContact.started += _ => StartPinchEvent.Invoke();
+            _inputControls.WorldEditor.SecondaryTouchContact.canceled += _ => StopPinchEvent.Invoke();
 
 #if UNITY_EDITOR
-            _inputControls.Game.RightClick.performed += _ => OnRightClick();
-            _inputControls.Game.RightClick.canceled += _ => RightClickEndedEvent.Invoke();
-            _inputControls.Game.Scroll.performed += OnScroll;
+            _inputControls.WorldEditor.RightClick.performed += _ => OnRightClick();
+            _inputControls.WorldEditor.RightClick.canceled += _ => RightClickEndedEvent.Invoke();
+            _inputControls.WorldEditor.Scroll.performed += OnScroll;
 #endif
         }
     }
@@ -58,7 +58,7 @@ public class InputReader : ScriptableObject
 
     private void OnPrimaryTap()
     {
-        PrimaryTapEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+        PrimaryTapEvent.Invoke(_inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>());
     }
 
     /// <summary>
@@ -68,8 +68,8 @@ public class InputReader : ScriptableObject
     {
         PrimaryTouchMovedEvent.Invoke(new TouchData
         {
-            Position = _inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>(),
-            DeltaPosition = _inputControls.Game.PrimaryTouchDelta.ReadValue<Vector2>()
+            Position = _inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>(),
+            DeltaPosition = _inputControls.WorldEditor.PrimaryTouchDelta.ReadValue<Vector2>()
         });
     }
 
@@ -81,30 +81,30 @@ public class InputReader : ScriptableObject
         SecondaryTouchEvent.Invoke(
             new TouchData
             {
-                Position = _inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _inputControls.Game.PrimaryTouchDelta.ReadValue<Vector2>()
+                Position = _inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>(),
+                DeltaPosition = _inputControls.WorldEditor.PrimaryTouchDelta.ReadValue<Vector2>()
             },
             new TouchData
             {
-                Position = _inputControls.Game.SecondaryTouchPosition.ReadValue<Vector2>(),
-                DeltaPosition = _inputControls.Game.SecondaryTouchDelta.ReadValue<Vector2>()
+                Position = _inputControls.WorldEditor.SecondaryTouchPosition.ReadValue<Vector2>(),
+                DeltaPosition = _inputControls.WorldEditor.SecondaryTouchDelta.ReadValue<Vector2>()
             });
     }
 
     private void OnPrimaryTouchStarted()
     {
-        PrimaryTouchStartedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+        PrimaryTouchStartedEvent.Invoke(_inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>());
     }
 
     private void OnPrimaryTouchEnded()
     {
-        PrimaryTouchEndedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+        PrimaryTouchEndedEvent.Invoke(_inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>());
     }
 
 #if UNITY_EDITOR
     private void OnRightClick()
     {
-        RightClickStartedEvent.Invoke(_inputControls.Game.PrimaryTouchPosition.ReadValue<Vector2>());
+        RightClickStartedEvent.Invoke(_inputControls.WorldEditor.PrimaryTouchPosition.ReadValue<Vector2>());
     }
     
     private void OnScroll(InputAction.CallbackContext ctx)

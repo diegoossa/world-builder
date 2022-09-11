@@ -46,6 +46,7 @@ public class ContextMenuEditor : MonoBehaviour
     private Transform _targetTransform;
     private Transform _transform;
     private float _originalScale;
+    private Transform _cameraTransform;
 
     private void Awake()
     {
@@ -69,6 +70,8 @@ public class ContextMenuEditor : MonoBehaviour
         deleteButton.onClick.AddListener(OnDeleteClicked);
 
         _transform = transform;
+        if (Camera.main != null) 
+            _cameraTransform = Camera.main.transform;
     }
 
     private void OnDisable()
@@ -83,15 +86,19 @@ public class ContextMenuEditor : MonoBehaviour
         deleteButton.onClick.RemoveListener(OnDeleteClicked);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_targetTransform)
         {
             _transform.position = _targetTransform.position;
             var targetScale = _targetTransform.localScale;
             var average = (targetScale.x + targetScale.y + targetScale.z) / 3f;
-            _transform.localScale = Vector3.one * (average * _originalScale);;
+            _transform.localScale = Vector3.one * (average * _originalScale);
         }
+
+        var cameraPosition = _cameraTransform.position;
+        var target = new Vector3(cameraPosition.x, _transform.position.y, cameraPosition.z);
+        transform.LookAt(-target);
     }
 
     private void OnTranslateClicked()
