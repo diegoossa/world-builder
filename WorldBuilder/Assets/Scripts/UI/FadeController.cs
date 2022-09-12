@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+//using DG.Tweening;
 
 public class FadeController : MonoBehaviour
 {
@@ -21,6 +21,6 @@ public class FadeController : MonoBehaviour
 
     private void InitiateFade(bool fadeIn, float duration, Color desiredColor)
     {
-        image.DOBlendableColor(desiredColor, duration);
+        //image.DOBlendableColor(desiredColor, duration);
     }
 }

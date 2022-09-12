@@ -29,11 +29,11 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - Assembly-CSharp-firstpass
-    - Cinemachine
+    - ES3
     - Tayx.Graphy
     - WorldBuilder
     - DOTween.Modules
+    - Assembly-CSharp-firstpass
     - Tayx.Graphy.Editor
     - PPv2URPConverters
     showAdvancedSettings: 0

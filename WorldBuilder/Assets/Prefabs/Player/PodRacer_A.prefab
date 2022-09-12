@@ -135,13 +135,10 @@ GameObject:
   - component: {fileID: 2630550928316048511}
   - component: {fileID: 1382116578368498650}
   - component: {fileID: 3804051835627888400}
-  - component: {fileID: 17646918}
   - component: {fileID: 1382116578368498648}
   - component: {fileID: 1382116578368498651}
-  - component: {fileID: 5638263520467334216}
-  - component: {fileID: 8463589400796920900}
   - component: {fileID: 7176710121539525589}
-  - component: {fileID: 5635778895763889618}
+  - component: {fileID: 6696502542922880302}
   m_Layer: 6
   m_Name: PodRacer_A
   m_TagString: Player
@@ -221,22 +218,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &17646918
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3443644636972351173}
-  serializedVersion: 2
-  m_Mass: 1000
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &1382116578368498648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -266,41 +247,6 @@ MonoBehaviour:
   visual: {fileID: 3443644636972351173}
   id: 0
   outlineShader: {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
---- !u!114 &5638263520467334216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3443644636972351173}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd003f74d013ed440b367bf3d1aabc5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 1000
-  rotationRate: 100
-  turnRotationAngle: 25
-  turnRotationSeekSpeed: 0.25
---- !u!114 &8463589400796920900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3443644636972351173}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62cbd926b47a7c44b9526fd68f1045e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thrusterStrength: 200
-  thrusterDistance: 2
-  thrusters:
-  - {fileID: 218980985}
-  - {fileID: 1715666730}
-  - {fileID: 633584884}
-  - {fileID: 1874383935}
 --- !u!114 &7176710121539525589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +271,6 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 6d6561b1c171f0d40b8e14cf5652bf7a, type: 2}
     - {fileID: 2100000, guid: e4bb31310d0f9a64f829258b12e0e0ec, type: 2}
     - {fileID: 2100000, guid: 2c9121f20dae9ed408b34c45882c73c2, type: 2}
-    - {fileID: 17646918}
     - {fileID: 1382116578368498648}
     - {fileID: 1382116578368498651}
     - {fileID: 11500000, guid: 7c67938232093e549a415e76f86af8cf, type: 3}
@@ -333,21 +278,17 @@ MonoBehaviour:
     - {fileID: 11500000, guid: cfca48a5adc978241a81d4ccbf43abbc, type: 3}
     - {fileID: 4800000, guid: 8fc8fdb43b58399439098906893c3a71, type: 3}
     - {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-    - {fileID: 5638263520467334216}
-    - {fileID: 11500000, guid: fd003f74d013ed440b367bf3d1aabc5c, type: 3}
-    - {fileID: 8463589400796920900}
-    - {fileID: 11500000, guid: b62cbd926b47a7c44b9526fd68f1045e, type: 3}
-    - {fileID: 218980985}
-    - {fileID: 1715666730}
-    - {fileID: 633584884}
-    - {fileID: 1874383935}
     - {fileID: 7176710121539525589}
     - {fileID: 218980984}
+    - {fileID: 218980985}
     - {fileID: 1715666729}
+    - {fileID: 1715666730}
     - {fileID: 633584883}
+    - {fileID: 633584884}
     - {fileID: 1874383934}
-    _Values: 3f3569eea8a3ff053e9a29d0dd21ff27813389a006f8915a418e76a4ef55cf026f046cd233102e4bc44bc504682a6d6b787c8400e1350d373a3b53e6d2a5e917ca2761d9b42df46f2eab22cd961f560a9e2a2344cd730d6cfce12c72d1cf20390acaf4909cebe11da122dcae8d20c21d9317181403e9a9149e51306f73b9e04b881562b612c96a5325f347a5b16ef1276853dda808516b08d2ed5186c777af503475a14b90ed5b18019102f9115e536b494d9172ae89c11da2fdb8ad3973372abf0de475ef0320434abfe2b4d25ce80476aafd60ac86bd6a11c97811a103174992bfd36798572e74c92db71f43c95b4c
---- !u!114 &5635778895763889618
+    - {fileID: 1874383935}
+    _Values: 3f3569eea8a3ff053e9a29d0dd21ff27813389a006f8915a418e76a4ef55cf026f046cd233102e4bc44bc504682a6d6b787c8400e1350d373a3b53e6d2a5e917ca2761d9b42df46f9e2a2344cd730d6cfce12c72d1cf20390acaf4909cebe11da122dcae8d20c21d9317181403e9a9149e51306f73b9e04b881562b612c96a534abfe2b4d25ce80476aafd60ac86bd6a019102f9115e536b11c97811a1031749494d9172ae89c11d92bfd36798572e74a2fdb8ad3973372ac92db71f43c95b4cbf0de475ef032043
+--- !u!114 &6696502542922880302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,6 +304,7 @@ MonoBehaviour:
   saveTag: 0
   saveName: 0
   saveHideFlags: 0
-  saveActive: 1
+  saveActive: 0
   saveChildren: 0
-  componentsToSave: []
+  componentsToSave:
+  - {fileID: 2630550928316048511}

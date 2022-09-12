@@ -1,10 +1,8 @@
 {
-    "name": "WorldBuilder",
+    "name": "ES3",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:65aae9e330350a74691d68220cbf918e"
+        "GUID:21b0c8d1703a94250bfac916590cea4f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

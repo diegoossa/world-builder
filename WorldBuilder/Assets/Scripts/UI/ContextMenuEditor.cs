@@ -98,7 +98,7 @@ public class ContextMenuEditor : MonoBehaviour
 
         var cameraPosition = _cameraTransform.position;
         var target = new Vector3(cameraPosition.x, _transform.position.y, cameraPosition.z);
-        transform.LookAt(-target);
+        transform.LookAt(target, Vector3.up);
     }
 
     private void OnTranslateClicked()

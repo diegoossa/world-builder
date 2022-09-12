@@ -5,8 +5,8 @@ public class WorldSelector : MonoBehaviour
 {
     [Header("Listening To")]
     [SerializeField] private InputReader inputReader;
-
     [SerializeField] private VoidEventChannelSO resetSelection;
+    [SerializeField] private VoidEventChannelSO deleteAllObjects;
 
     [Header("Broadcasting On")] 
     [SerializeField] private TransformEventChannelSO selectObjectChannel;
@@ -27,12 +27,14 @@ public class WorldSelector : MonoBehaviour
     {
         inputReader.PrimaryTapEvent += OnPrimaryTap;
         resetSelection.OnEventRaised += ClearSelection;
+        deleteAllObjects.OnEventRaised += ClearSelection;
     }
 
     private void OnDisable()
     {
         inputReader.PrimaryTapEvent -= OnPrimaryTap;
         resetSelection.OnEventRaised -= ClearSelection;
+        deleteAllObjects.OnEventRaised -= ClearSelection;
     }
 
     private void Update()
