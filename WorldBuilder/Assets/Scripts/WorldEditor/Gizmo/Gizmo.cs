@@ -6,4 +6,5 @@ public class Gizmo : MonoBehaviour
 {
     public GizmoType type;
     public Vector3 direction;
+    public bool isPlanar;
 }

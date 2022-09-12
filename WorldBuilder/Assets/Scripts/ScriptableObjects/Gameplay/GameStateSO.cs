@@ -7,7 +7,7 @@ public enum GameState
     World,
     Editing,
     Creating,
-    ScrollingMenu
+    Game
 }
 
 public class GameStateSO : ScriptableObject
