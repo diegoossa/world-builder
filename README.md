@@ -19,12 +19,6 @@ Challenges:
 * There were some things missing in the commands for the undo system. As the creation of elements and when they are all deleted.
 * Anxiety.
 
-TODO (Known Issues):
-* Sometimes the panning is not working, I need to check why.
-* Deleted objects need to be cleaned when the session ends.
-* Sometimes the Editor UI gets blocked by the objects.
-* Translate Gizmos should be calculated based on the Camera Position.
-
 There is still a lot of polishing to be done on the example, but I didn't want to take too much more time.
 
 [Link to the APK](https://drive.google.com/file/d/1mUl9axuZxylW9r8Ok7nsivWlyYoCuT4e/view?usp=sharing)
