@@ -1,5 +1,4 @@
 # Pod Racer - World builder
-Trial Task
 
 <img width="337" alt="Unity_KZcX4aZocq" src="https://user-images.githubusercontent.com/3436237/189285942-65f5210c-8ca1-4eda-a0b6-6838397dc920.png">
 
