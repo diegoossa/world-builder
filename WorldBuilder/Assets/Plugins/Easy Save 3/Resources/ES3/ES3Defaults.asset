@@ -31,11 +31,11 @@ MonoBehaviour:
     assemblyNames:
     - ES3
     - Tayx.Graphy
+    - PPv2URPConverters
     - WorldBuilder
+    - Tayx.Graphy.Editor
     - DOTween.Modules
     - Assembly-CSharp-firstpass
-    - Tayx.Graphy.Editor
-    - PPv2URPConverters
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
